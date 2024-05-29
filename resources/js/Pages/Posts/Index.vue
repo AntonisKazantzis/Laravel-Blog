@@ -66,7 +66,7 @@ let props = defineProps({
                                             <IconTags class="mr-1" :size="18" />
                                             <template v-for="tag in post.tags" :key="tag.id">
                                                 <!-- Display the tag name with rounded background gray color -->
-                                                <div class="inline-block bg-zinc-300 rounded-full px-2 py-1 mr-1">{{
+                                                <div class="inline-block bg-zinc-300 text-black dark:text-black rounded-full px-2 py-1 mr-1">{{
                                                     tag.name }}</div>
                                             </template>
                                         </span>
