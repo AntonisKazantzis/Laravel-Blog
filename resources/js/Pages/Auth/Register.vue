@@ -27,7 +27,7 @@ const submit = () => {
 <template>
     <GuestLayout title="Register">
         <template #header>
-            <div class="flex justify-between text-white dark:text-black p-[10px]">
+            <div class="flex flex-col sm:flex-row justify-between text-white dark:text-black gap-6">
                 <h2 class="font-semibold text-xl flex-grow flex items-center justify-start">Register</h2>
             </div>
         </template>

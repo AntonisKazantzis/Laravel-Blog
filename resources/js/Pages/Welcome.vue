@@ -15,7 +15,7 @@ defineProps({
     <template v-if="$page.props.auth.user">
         <AppLayout title="Welcome">
             <template #header>
-                <div class="flex justify-between text-white dark:text-black p-[10px]">
+                <div class="flex flex-col sm:flex-row justify-between text-white dark:text-black gap-6">
                     <h2 class="font-semibold text-xl flex-grow flex items-center justify-start">Welcome</h2>
                 </div>
             </template>
@@ -31,7 +31,7 @@ defineProps({
     <template v-else>
         <GuestLayout title="Welcome">
             <template #header>
-                <div class="flex justify-between text-white dark:text-black p-[10px]">
+                <div class="flex flex-col sm:flex-row justify-between text-white dark:text-black gap-6">
                     <h2 class="font-semibold text-xl flex-grow flex items-center justify-start">Welcome</h2>
                 </div>
             </template>

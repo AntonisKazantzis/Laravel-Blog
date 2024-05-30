@@ -5,7 +5,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 <template>
     <AppLayout title="Dashboard">
         <template #header>
-            <div class="flex justify-between text-white dark:text-black p-[10px]">
+            <div class="flex flex-col sm:flex-row justify-between text-white dark:text-black gap-6">
                 <h2 class="font-semibold text-xl flex-grow flex items-center justify-start">Dashboard</h2>
             </div>
         </template>
