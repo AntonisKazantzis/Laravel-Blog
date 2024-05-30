@@ -48,26 +48,25 @@ const edit = (categoryId) => {
                 </div>
             </template>
 
-            <div v-if="posts && posts.length > 0" class="pt-16 pb-8 border-t hidden sm:block">
+            <div v-if="posts && posts.length > 0" class="pt-16 pb-8 border-t sm:block">
                 <div v-for="post in posts" :key="post.id"
-                    class="shadow-xl border-2 m-auto rounded flex md:w-[900px] md:h-[330px] mb-8 transition-transform transform hover:scale-105">
+                    class="shadow-xl border-2 m-auto rounded flex flex-col md:flex-row w-full max-w-md md:max-w-4xl mb-8 transition-transform transform hover:scale-105">
 
-                    <div class="flex-1 p-8">
-
-                        <!-- Left Section (Details) -->
+                    <div class="flex-1 p-4 md:p-8 overflow-hidden">
                         <div class="bg-[#343541] dark:bg-white">
-                            <div class="px-6">
-                                <div
-                                    class="flex items-center pr-3 text-xl font-semibold text-white dark:text-black pb-10">
+                            <div class="px-4 md:px-6">
+                                <div v-if="post.title"
+                                    class="flex items-center pr-3 text-xl font-semibold text-white dark:text-black pb-4 md:pb-10">
                                     {{ post.title }}
                                 </div>
-                                <span v-html="post.body"></span>
+                                <span v-if="post.body" v-html="post.body"
+                                    class="block text-white dark:text-black break-words"></span>
                             </div>
 
-                            <div class="px-6 pt-10">
+                            <div class="px-4 md:px-6 pt-4 md:pt-10">
                                 <div class="space-y-4">
                                     <div>
-                                        <span
+                                        <span v-if="post.category"
                                             class="flex items-center pr-3 text-sm font-semibold text-white dark:text-black">
                                             <IconCategory class="mr-1" :size="18" />
                                             {{ post.category.name }}
@@ -75,7 +74,7 @@ const edit = (categoryId) => {
                                     </div>
 
                                     <div>
-                                        <span
+                                        <span v-if="post.subCategory"
                                             class="flex items-center pr-3 text-sm font-semibold text-white dark:text-black">
                                             <IconCategory class="mr-1" :size="18" />
                                             {{ post.subCategory.name }}
@@ -89,8 +88,8 @@ const edit = (categoryId) => {
                                             <template v-for="tag in post.tags" :key="tag.id">
                                                 <div
                                                     class="inline-block bg-zinc-300 text-black dark:text-black rounded-full px-2 py-1 mr-1">
-                                                    {{
-                                                        tag.name }}</div>
+                                                    {{ tag.name }}
+                                                </div>
                                             </template>
                                         </span>
                                     </div>
@@ -99,18 +98,17 @@ const edit = (categoryId) => {
                         </div>
                     </div>
 
-                    <!-- Right Section (Image) -->
                     <div class="flex-1 relative">
                         <img class="w-full h-full object-cover rounded" :src="post.image" alt="" />
 
-                        <div class="absolute top-2 right-2 flex">
+                        <div class="absolute top-2 md:right-2 md:justify-none justify-between md:w-auto w-full flex">
                             <button type="button" @click="destroy(post.id)"
-                                class="bg-zinc-300 text-black p-2 rounded-full mr-2">
+                                class="bg-zinc-300 text-black p-2 rounded-full md:mr-2 ml-2">
                                 <IconX :size="18" />
                             </button>
 
-                            <button type="button" @click="edit(category.id)"
-                                class="bg-zinc-300 text-black p-2 rounded-full">
+                            <button type="button" @click="edit(post.id)"
+                                class="bg-zinc-300 text-black p-2 rounded-full md:mr-0 mr-2">
                                 <IconPencil :size="18" />
                             </button>
                         </div>
@@ -143,26 +141,25 @@ const edit = (categoryId) => {
                 </div>
             </template>
 
-            <div v-if="posts && posts.length > 0" class="pt-16 pb-8 border-t hidden sm:block">
+            <div v-if="posts && posts.length > 0" class="pt-16 pb-8 border-t sm:block">
                 <div v-for="post in posts" :key="post.id"
-                    class="shadow-xl border-2 m-auto rounded flex md:w-[900px] md:h-[330px] mb-8 transition-transform transform hover:scale-105">
+                    class="shadow-xl border-2 m-auto rounded flex flex-col md:flex-row w-full max-w-md md:max-w-4xl mb-8 transition-transform transform hover:scale-105">
 
-                    <div class="flex-1 p-8">
-
-                        <!-- Left Section (Details) -->
+                    <div class="flex-1 p-4 md:p-8 overflow-hidden">
                         <div class="bg-[#343541] dark:bg-white">
-                            <div class="px-6">
-                                <div
-                                    class="flex items-center pr-3 text-xl font-semibold text-white dark:text-black pb-10">
+                            <div class="px-4 md:px-6">
+                                <div v-if="post.title"
+                                    class="flex items-center pr-3 text-xl font-semibold text-white dark:text-black pb-4 md:pb-10">
                                     {{ post.title }}
                                 </div>
-                                <span v-html="post.body"></span>
+                                <span v-if="post.body" v-html="post.body"
+                                    class="block text-white dark:text-black break-words"></span>
                             </div>
 
-                            <div class="px-6 pt-10">
+                            <div class="px-4 md:px-6 pt-4 md:pt-10">
                                 <div class="space-y-4">
                                     <div>
-                                        <span
+                                        <span v-if="post.category"
                                             class="flex items-center pr-3 text-sm font-semibold text-white dark:text-black">
                                             <IconCategory class="mr-1" :size="18" />
                                             {{ post.category.name }}
@@ -170,7 +167,7 @@ const edit = (categoryId) => {
                                     </div>
 
                                     <div>
-                                        <span
+                                        <span v-if="post.subCategory"
                                             class="flex items-center pr-3 text-sm font-semibold text-white dark:text-black">
                                             <IconCategory class="mr-1" :size="18" />
                                             {{ post.subCategory.name }}
@@ -184,19 +181,14 @@ const edit = (categoryId) => {
                                             <template v-for="tag in post.tags" :key="tag.id">
                                                 <div
                                                     class="inline-block bg-zinc-300 text-black dark:text-black rounded-full px-2 py-1 mr-1">
-                                                    {{
-                                                        tag.name }}</div>
+                                                    {{ tag.name }}
+                                                </div>
                                             </template>
                                         </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Right Section (Image) -->
-                    <div class="flex-1">
-                        <img class="w-full h-full object-cover rounded" :src="post.image" alt="" />
                     </div>
                 </div>
             </div>

@@ -48,7 +48,7 @@ const edit = (categoryId) => {
                 </div>
             </template>
 
-            <div v-if="categories && categories.length > 0" class="pt-16 pb-8 border-t hidden sm:block">
+            <div v-if="categories && categories.length > 0" class="pt-16 pb-8 border-t sm:block">
                 <div class="flex flex-wrap justify-center">
                     <div v-for="category in categories" :key="category.id"
                         class="shadow-xl border-2 m-4 rounded flex flex-col md:w-[330px] md:h-[130px] mb-8 transition-transform transform hover:scale-105">
@@ -107,7 +107,7 @@ const edit = (categoryId) => {
                 </div>
             </template>
 
-            <div v-if="categories && categories.length > 0" class="pt-16 pb-8 border-t hidden sm:block">
+            <div v-if="categories && categories.length > 0" class="pt-16 pb-8 border-t sm:block">
                 <div class="flex flex-wrap justify-center">
                     <div v-for="category in categories" :key="category.id"
                         class="shadow-xl border-2 m-4 rounded flex flex-col md:w-[330px] md:h-[110px] mb-8 transition-transform transform hover:scale-105">
