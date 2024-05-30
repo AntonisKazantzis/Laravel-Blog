@@ -27,9 +27,29 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->passwordReset()
             ->colors([
-                'primary' => Color::Amber,
+                'slate' => Color::Slate,
+                'zinc' => Color::Zinc,
+                'neutral' => Color::Neutral,
+                'stone' => Color::Stone,
+                'red' => Color::Red,
+                'orange' => Color::Orange,
+                'amber' => Color::Amber,
+                'yellow' => Color::Yellow,
+                'lime' => Color::Lime,
+                'green' => Color::Green,
+                'emerald' => Color::Emerald,
+                'cyan' => Color::Cyan,
+                'sky' => Color::Sky,
+                'blue' => Color::Blue,
+                'indigo' => Color::Indigo,
+                'violet' => Color::Violet,
+                'purple' => Color::Purple,
+                'pink' => Color::Pink,
+                'rose' => Color::Rose,
             ])
+            ->spa()
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -38,7 +58,6 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
