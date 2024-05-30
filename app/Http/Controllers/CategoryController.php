@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Inertia\Inertia;
 
 class CategoryController extends Controller
 {
@@ -30,10 +30,10 @@ class CategoryController extends Controller
         $response = Http::withToken($bearerToken)->get('https://laraveltests.cactuscrm.gr/api/categories/getAll');
 
         $categories = $response->json();
-    
+
         return Inertia::render('Categories/Create', compact('categories'));
     }
-    
+
     /**
      * Store a newly created resource in storage.
      */
@@ -42,7 +42,7 @@ class CategoryController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
         ]);
-    
+
         $bearerToken = env('API_BEARER_TOKEN');
         $response = Http::withToken($bearerToken)->post('https://laraveltests.cactuscrm.gr/api/categories', [
             'name' => $request->input('name'),
@@ -78,21 +78,20 @@ class CategoryController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
         ]);
-    
+
         $bearerToken = env('API_BEARER_TOKEN');
         $response = Http::withToken($bearerToken)->patch("https://laraveltests.cactuscrm.gr/api/categories/{$id}", [
             'name' => $request->input('name'),
         ]);
-    
+
         $response->json();
-    
+
         if ($response->successful()) {
             return to_route('categories.index')->with('success', 'Category updated successfully.');
         } else {
             return back()->withInput()->withErrors(['error' => 'Failed to create category.']);
         }
     }
-    
 
     /**
      * Remove the specified resource from storage.

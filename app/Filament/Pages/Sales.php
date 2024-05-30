@@ -2,14 +2,14 @@
 
 namespace App\Filament\Pages;
 
-use Filament\Forms;
-use App\Models\Sale;
-use Filament\Tables;
-use Filament\Pages\Page;
-use Filament\Tables\Table;
 use App\Filament\Widgets\SalesChart;
-use Filament\Tables\Contracts\HasTable;
+use App\Models\Sale;
+use Filament\Forms;
+use Filament\Pages\Page;
+use Filament\Tables;
 use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Table;
 
 class Sales extends Page implements HasTable
 {

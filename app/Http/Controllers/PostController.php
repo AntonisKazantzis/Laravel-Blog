@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Inertia\Inertia;
 
 class PostController extends Controller
 {
@@ -30,10 +30,10 @@ class PostController extends Controller
         $response = Http::withToken($bearerToken)->get('https://laraveltests.cactuscrm.gr/api/posts/getAll');
 
         $posts = $response->json();
-    
+
         return Inertia::render('Posts/Create', compact('posts'));
     }
-    
+
     /**
      * Store a newly created resource in storage.
      */
@@ -74,7 +74,7 @@ class PostController extends Controller
     {
         $bearerToken = env('API_BEARER_TOKEN');
         $responsePost = Http::withToken($bearerToken)->get("https://laraveltests.cactuscrm.gr/api/posts/{$id}");
-        $responsePosts = Http::withToken($bearerToken)->get("https://laraveltests.cactuscrm.gr/api/posts/getAll");
+        $responsePosts = Http::withToken($bearerToken)->get('https://laraveltests.cactuscrm.gr/api/posts/getAll');
 
         $post = $responsePost->json();
         $posts = $responsePosts->json();
@@ -95,14 +95,14 @@ class PostController extends Controller
             'subCategory' => ['required', 'integer', 'max:255'],
             'tags' => ['nullable', 'array', 'max:255'],
         ]);
-    
+
         $tags = collect($request->input('tags'))->map(function ($tag) {
             return [
-                'id' => (int)$tag['id'],
-                'name' => $tag['name']
+                'id' => (int) $tag['id'],
+                'name' => $tag['name'],
             ];
         })->toArray();
-    
+
         $bearerToken = env('API_BEARER_TOKEN');
         $response = Http::withToken($bearerToken)->patch("https://laraveltests.cactuscrm.gr/api/posts/{$id}", [
             'title' => $request->input('title'),
@@ -112,16 +112,15 @@ class PostController extends Controller
             'subCategoryId' => $request->input('subCategory'),
             'tags' => $tags,
         ]);
-    
+
         $response->json();
-    
+
         if ($response->successful()) {
             return to_route('posts.index')->with('success', 'Post updated successfully.');
         } else {
             return back()->withInput()->withErrors(['error' => 'Failed to create post.']);
         }
     }
-    
 
     /**
      * Remove the specified resource from storage.
