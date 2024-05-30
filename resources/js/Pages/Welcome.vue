@@ -25,8 +25,6 @@ defineProps({
                     <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg"></div>
                 </div>
             </div>
-
-            <Head title="Welcome" />
         </AppLayout>
     </template>
 
@@ -43,8 +41,6 @@ defineProps({
                     <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg"></div>
                 </div>
             </div>
-
-            <Head title="Welcome" />
         </GuestLayout>
     </template>
 </template>
