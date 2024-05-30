@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PostController;
-use App\Http\Controllers\TagController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -17,7 +16,7 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+// Shared data
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -27,6 +26,7 @@ Route::get('/', function () {
     ]);
 });
 
+// Private routes
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -36,9 +36,10 @@ Route::middleware([
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
-    Route::resource('tags', TagController::class);
-
-    Route::resource('posts', PostController::class);
-
-    Route::resource('categories', CategoryController::class);
+    Route::resource('posts', PostController::class)->except(['index']);
+    Route::resource('categories', CategoryController::class)->except(['index']);
 });
+
+// Public routes
+Route::resource('posts', PostController::class)->only(['index']);
+Route::resource('categories', CategoryController::class)->only(['index']);
