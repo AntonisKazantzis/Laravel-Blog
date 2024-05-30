@@ -108,25 +108,20 @@ const edit = (categoryId) => {
             </template>
 
             <div v-if="categories && categories.length > 0" class="pt-16 pb-8 border-t hidden sm:block">
-                <div v-for="category in categories" :key="category.id"
-                    class="shadow-xl border-2 m-auto rounded flex md:w-[900px] md:h-[330px] mb-8 transition-transform transform hover:scale-105">
+                <div class="flex flex-wrap justify-center">
+                    <div v-for="category in categories" :key="category.id"
+                        class="shadow-xl border-2 m-4 rounded flex flex-col md:w-[330px] md:h-[110px] mb-8 transition-transform transform hover:scale-105">
 
-                    <div class="flex p-8">
-                        <div class="bg-[#343541] dark:bg-white">
-                            <div class="px-6">
-                                <div
-                                    class="flex items-center pr-3 text-xl font-semibold text-white dark:text-black pb-10">
-                                    {{ category.name }}
+                        <div class="flex p-8">
+                            <div class="bg-[#343541] dark:bg-white w-full text-center">
+                                <div class="px-6">
+                                    <div
+                                        class="flex justify-center items-center pr-3 text-xl font-semibold text-white dark:text-black pb-10">
+                                        {{ category.name }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div>
-                        <button type="submit" @click="destroy(category.id)"
-                            class="absolute top-2 right-2 bg-zinc-300 text-black p-2 rounded-full">
-                            <IconX :size="18" />
-                        </button>
                     </div>
                 </div>
             </div>
