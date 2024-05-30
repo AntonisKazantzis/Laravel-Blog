@@ -48,6 +48,12 @@ class PostController extends Controller
             'tags' => ['nullable', 'array', 'max:255'],
         ]);
 
+        $tags = collect($request->input('tags'))->map(function ($tag) {
+            return [
+                'id' => (int) $tag['id'],
+            ];
+        })->toArray();
+
         $bearerToken = env('API_BEARER_TOKEN');
         $response = Http::withToken($bearerToken)->post('https://laraveltests.cactuscrm.gr/api/posts', [
             'title' => $request->input('title'),
@@ -55,7 +61,7 @@ class PostController extends Controller
             'image' => $request->input('image'),
             'categoryId' => $request->input('category'),
             'subCategoryId' => $request->input('subCategory'),
-            'tags' => $request->input('tags'),
+            'tags' => $tags,
         ]);
 
         $response->json();
@@ -99,7 +105,6 @@ class PostController extends Controller
         $tags = collect($request->input('tags'))->map(function ($tag) {
             return [
                 'id' => (int) $tag['id'],
-                'name' => $tag['name'],
             ];
         })->toArray();
 
