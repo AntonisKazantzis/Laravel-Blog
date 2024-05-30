@@ -81,9 +81,11 @@ class Sales extends Page implements HasTable
                     ->modalHeading('View Statistics')
                     ->form([
                         Forms\Components\TextInput::make('sales')
+                            ->suffix('pcs')
                             ->formatStateUsing(fn (string $state): string => number_format((int) $state)),
 
                         Forms\Components\TextInput::make('revenue')
+                            ->suffixIcon('heroicon-m-currency-euro')
                             ->formatStateUsing(fn (string $state): string => number_format((int) $state)),
 
                         Forms\Components\TextInput::make('lastSaleDate'),
