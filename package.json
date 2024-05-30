@@ -21,6 +21,7 @@
     },
     "dependencies": {
         "@tabler/icons-vue": "^3.5.0",
-        "lodash": "^4.17.21"
+        "lodash": "^4.17.21",
+        "md-editor-v3": "^4.15.6"
     }
 }
