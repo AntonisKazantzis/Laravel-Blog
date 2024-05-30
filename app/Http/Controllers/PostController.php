@@ -15,6 +15,7 @@ class PostController extends Controller
     {
         $bearerToken = env('API_BEARER_TOKEN');
         $response = Http::withToken($bearerToken)->get('https://laraveltests.cactuscrm.gr/api/posts/getAll');
+
         $posts = $response->json();
 
         return Inertia::render('Posts/Index', compact('posts'));
@@ -25,9 +26,14 @@ class PostController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Posts\Create');
-    }
+        $bearerToken = env('API_BEARER_TOKEN');
+        $response = Http::withToken($bearerToken)->get('https://laraveltests.cactuscrm.gr/api/posts/getAll');
 
+        $posts = $response->json();
+    
+        return Inertia::render('Posts/Create', compact('posts'));
+    }
+    
     /**
      * Store a newly created resource in storage.
      */
@@ -36,34 +42,29 @@ class PostController extends Controller
         $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'body' => ['required', 'string', 'max:65535'],
-            'categoryId' => ['required', 'integer', 'max:255'],
-            'subCategoryId' => ['required', 'integer', 'max:255'],
             'image' => ['nullable', 'mimes:jpg,png,jpeg,gif', 'max:10240'],
-            'tagIds' => ['nullable', 'array', 'max:255'],
+            'category' => ['required', 'integer', 'max:255'],
+            'subCategory' => ['required', 'integer', 'max:255'],
+            'tags' => ['nullable', 'array', 'max:255'],
         ]);
 
         $bearerToken = env('API_BEARER_TOKEN');
         $response = Http::withToken($bearerToken)->post('https://laraveltests.cactuscrm.gr/api/posts', [
-            'name' => $request->input('name'),
+            'title' => $request->input('title'),
+            'body' => $request->input('body'),
+            'image' => $request->input('image'),
+            'categoryId' => $request->input('category'),
+            'subCategoryId' => $request->input('subCategory'),
+            'tags' => $request->input('tags'),
         ]);
 
+        $response->json();
+
         if ($response->successful()) {
-            return redirect()->route('posts.index')->with('success', 'Post created successfully.');
+            return to_route('posts.index')->with('success', 'Post created successfully.');
         } else {
             return back()->withInput()->withErrors(['error' => 'Failed to create post.']);
         }
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        $bearerToken = env('API_BEARER_TOKEN');
-        $response = Http::withToken($bearerToken)->get("https://laraveltests.cactuscrm.gr/api/posts/{$postId}");
-        $post = $response->json();
-
-        return Inertia::render('Posts\Show', compact('post'));
     }
 
     /**
@@ -72,10 +73,13 @@ class PostController extends Controller
     public function edit(string $id)
     {
         $bearerToken = env('API_BEARER_TOKEN');
-        $response = Http::withToken($bearerToken)->get("https://laraveltests.cactuscrm.gr/api/posts/{$postId}");
-        $post = $response->json();
+        $responsePost = Http::withToken($bearerToken)->get("https://laraveltests.cactuscrm.gr/api/posts/{$id}");
+        $responsePosts = Http::withToken($bearerToken)->get("https://laraveltests.cactuscrm.gr/api/posts/getAll");
 
-        return Inertia::render('Posts\Edit', compact('post'));
+        $post = $responsePost->json();
+        $posts = $responsePosts->json();
+
+        return Inertia::render('Posts/Edit', compact('post', 'posts'));
     }
 
     /**
@@ -86,23 +90,38 @@ class PostController extends Controller
         $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'body' => ['required', 'string', 'max:65535'],
-            'categoryId' => ['required', 'integer', 'max:255'],
-            'subCategoryId' => ['required', 'integer', 'max:255'],
             'image' => ['nullable', 'mimes:jpg,png,jpeg,gif', 'max:10240'],
-            'tagIds' => ['nullable', 'array', 'max:255'],
+            'category' => ['required', 'integer', 'max:255'],
+            'subCategory' => ['required', 'integer', 'max:255'],
+            'tags' => ['nullable', 'array', 'max:255'],
         ]);
-
+    
+        $tags = collect($request->input('tags'))->map(function ($tag) {
+            return [
+                'id' => (int)$tag['id'],
+                'name' => $tag['name']
+            ];
+        })->toArray();
+    
         $bearerToken = env('API_BEARER_TOKEN');
-        $response = Http::withToken($bearerToken)->patch("https://laraveltests.cactuscrm.gr/api/posts/{$postId}", [
-            'name' => $request->input('name'),
+        $response = Http::withToken($bearerToken)->patch("https://laraveltests.cactuscrm.gr/api/posts/{$id}", [
+            'title' => $request->input('title'),
+            'body' => $request->input('body'),
+            'image' => $request->input('image'),
+            'categoryId' => $request->input('category'),
+            'subCategoryId' => $request->input('subCategory'),
+            'tags' => $tags,
         ]);
-
+    
+        $response->json();
+    
         if ($response->successful()) {
-            return redirect()->route('posts.index')->with('success', 'Post updated successfully.');
+            return to_route('posts.index')->with('success', 'Post updated successfully.');
         } else {
-            return back()->withInput()->withErrors(['error' => 'Failed to update post.']);
+            return back()->withInput()->withErrors(['error' => 'Failed to create post.']);
         }
     }
+    
 
     /**
      * Remove the specified resource from storage.
@@ -110,10 +129,10 @@ class PostController extends Controller
     public function destroy(string $id)
     {
         $bearerToken = env('API_BEARER_TOKEN');
-        $response = Http::withToken($bearerToken)->delete("https://laraveltests.cactuscrm.gr/api/posts/{$postId}");
+        $response = Http::withToken($bearerToken)->delete("https://laraveltests.cactuscrm.gr/api/posts/{$id}");
 
         if ($response->successful()) {
-            return redirect()->route('posts.index')->with('success', 'Post deleted successfully.');
+            return to_route('posts.index')->with('success', 'Post deleted successfully.');
         } else {
             return back()->withErrors(['error' => 'Failed to delete post.']);
         }
