@@ -15,9 +15,10 @@ class CategoryController extends Controller
     {
         $bearerToken = env('API_BEARER_TOKEN');
         $response = Http::withToken($bearerToken)->get('https://laraveltests.cactuscrm.gr/api/categories/getAll');
+
         $categories = $response->json();
 
-        return Inertia::render('Categories\Index', compact('categories'));
+        return Inertia::render('Categories/Index', compact('categories'));
     }
 
     /**
@@ -25,9 +26,14 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Categories\Create');
-    }
+        $bearerToken = env('API_BEARER_TOKEN');
+        $response = Http::withToken($bearerToken)->get('https://laraveltests.cactuscrm.gr/api/categories/getAll');
 
+        $categories = $response->json();
+    
+        return Inertia::render('Categories/Create', compact('categories'));
+    }
+    
     /**
      * Store a newly created resource in storage.
      */
@@ -36,29 +42,19 @@ class CategoryController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
         ]);
-
+    
         $bearerToken = env('API_BEARER_TOKEN');
         $response = Http::withToken($bearerToken)->post('https://laraveltests.cactuscrm.gr/api/categories', [
             'name' => $request->input('name'),
         ]);
 
+        $response->json();
+
         if ($response->successful()) {
-            return redirect()->route('categories.index')->with('success', 'Category created successfully.');
+            return to_route('categories.index')->with('success', 'Category created successfully.');
         } else {
             return back()->withInput()->withErrors(['error' => 'Failed to create category.']);
         }
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        $bearerToken = env('API_BEARER_TOKEN');
-        $response = Http::withToken($bearerToken)->get("https://laraveltests.cactuscrm.gr/api/categories/{$categoryId}");
-        $category = $response->json();
-
-        return Inertia::render('Categories\Show', compact('category'));
     }
 
     /**
@@ -67,10 +63,11 @@ class CategoryController extends Controller
     public function edit(string $id)
     {
         $bearerToken = env('API_BEARER_TOKEN');
-        $response = Http::withToken($bearerToken)->get("https://laraveltests.cactuscrm.gr/api/categories/{$categoryId}");
+        $response = Http::withToken($bearerToken)->get("https://laraveltests.cactuscrm.gr/api/categories/{$id}");
+
         $category = $response->json();
 
-        return Inertia::render('Categories\Edit', compact('category'));
+        return Inertia::render('Categories/Edit', compact('category'));
     }
 
     /**
@@ -81,18 +78,21 @@ class CategoryController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
         ]);
-
+    
         $bearerToken = env('API_BEARER_TOKEN');
-        $response = Http::withToken($bearerToken)->patch("https://laraveltests.cactuscrm.gr/api/categories/{$categoryId}", [
+        $response = Http::withToken($bearerToken)->patch("https://laraveltests.cactuscrm.gr/api/categories/{$id}", [
             'name' => $request->input('name'),
         ]);
-
+    
+        $response->json();
+    
         if ($response->successful()) {
-            return redirect()->route('categories.index')->with('success', 'Category updated successfully.');
+            return to_route('categories.index')->with('success', 'Category updated successfully.');
         } else {
-            return back()->withInput()->withErrors(['error' => 'Failed to update category.']);
+            return back()->withInput()->withErrors(['error' => 'Failed to create category.']);
         }
     }
+    
 
     /**
      * Remove the specified resource from storage.
@@ -100,10 +100,10 @@ class CategoryController extends Controller
     public function destroy(string $id)
     {
         $bearerToken = env('API_BEARER_TOKEN');
-        $response = Http::withToken($bearerToken)->delete("https://laraveltests.cactuscrm.gr/api/categories/{$categoryId}");
+        $response = Http::withToken($bearerToken)->delete("https://laraveltests.cactuscrm.gr/api/categories/{$id}");
 
         if ($response->successful()) {
-            return redirect()->route('categories.index')->with('success', 'Category deleted successfully.');
+            return to_route('categories.index')->with('success', 'Category deleted successfully.');
         } else {
             return back()->withErrors(['error' => 'Failed to delete category.']);
         }
