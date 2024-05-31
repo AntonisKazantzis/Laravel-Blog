@@ -20,7 +20,7 @@ const destroy = (postId) => {
         onError: () => new FilamentNotification()
             .title('Error :/.')
             .danger()
-            .body('Something went wrong.')
+            .body('Failed to delete this post.')
             .send(),
     });
 };

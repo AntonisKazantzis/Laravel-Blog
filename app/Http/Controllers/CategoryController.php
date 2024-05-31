@@ -39,20 +39,20 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-        ]);
+        try {
+            $request->validate([
+                'name' => ['required', 'string', 'max:255'],
+            ]);
 
-        $bearerToken = env('API_BEARER_TOKEN');
-        $response = Http::withToken($bearerToken)->post('https://laraveltests.cactuscrm.gr/api/categories', [
-            'name' => $request->input('name'),
-        ]);
+            $bearerToken = env('API_BEARER_TOKEN');
+            $response = Http::withToken($bearerToken)->post('https://laraveltests.cactuscrm.gr/api/categories', [
+                'name' => $request->input('name'),
+            ]);
 
-        $response->json();
+            $response->json();
 
-        if ($response->successful()) {
-            return to_route('categories.index')->with('success', 'Category created successfully.');
-        } else {
+            return to_route('posts.index')->with('success', 'Category created successfully.');
+        } catch (\Exception $e) {
             return back()->withInput()->withErrors(['error' => 'Failed to create category.']);
         }
     }
@@ -75,20 +75,20 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-        ]);
+        try {
+            $request->validate([
+                'name' => ['required', 'string', 'max:255'],
+            ]);
 
-        $bearerToken = env('API_BEARER_TOKEN');
-        $response = Http::withToken($bearerToken)->patch("https://laraveltests.cactuscrm.gr/api/categories/{$id}", [
-            'name' => $request->input('name'),
-        ]);
+            $bearerToken = env('API_BEARER_TOKEN');
+            $response = Http::withToken($bearerToken)->patch("https://laraveltests.cactuscrm.gr/api/categories/{$id}", [
+                'name' => $request->input('name'),
+            ]);
 
-        $response->json();
+            $response->json();
 
-        if ($response->successful()) {
-            return to_route('categories.index')->with('success', 'Category updated successfully.');
-        } else {
+            return to_route('posts.index')->with('success', 'Category created successfully.');
+        } catch (\Exception $e) {
             return back()->withInput()->withErrors(['error' => 'Failed to create category.']);
         }
     }
