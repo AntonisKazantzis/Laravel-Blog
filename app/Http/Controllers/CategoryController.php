@@ -8,13 +8,21 @@ use Inertia\Inertia;
 
 class CategoryController extends Controller
 {
+    private $bearerToken;
+    private $baseUrl;
+
+    public function __construct()
+    {
+        $this->bearerToken = env('API_BEARER_TOKEN');
+        $this->baseUrl = "https://laraveltests.cactuscrm.gr/api/categories";
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $bearerToken = env('API_BEARER_TOKEN');
-        $response = Http::withToken($bearerToken)->get('https://laraveltests.cactuscrm.gr/api/categories/getAll');
+        $response = Http::withToken($this->bearerToken)->get($this->baseUrl.'/getAll');
 
         $categories = $response->json();
 
@@ -26,8 +34,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $bearerToken = env('API_BEARER_TOKEN');
-        $response = Http::withToken($bearerToken)->get('https://laraveltests.cactuscrm.gr/api/categories/getAll');
+        $response = Http::withToken($this->bearerToken)->get($this->baseUrl.'/getAll');
 
         $categories = $response->json();
 
@@ -44,14 +51,17 @@ class CategoryController extends Controller
                 'name' => ['required', 'string', 'max:255'],
             ]);
 
-            $bearerToken = env('API_BEARER_TOKEN');
-            $response = Http::withToken($bearerToken)->post('https://laraveltests.cactuscrm.gr/api/categories', [
+            $response = Http::withToken($this->bearerToken)->post($this->baseUrl, [
                 'name' => $request->input('name'),
             ]);
 
             $response->json();
 
-            return to_route('posts.index')->with('success', 'Category created successfully.');
+            if ($response->successful()) {
+                return to_route('categories.index')->with('success', 'Category created successfully.');
+            } else {
+                return back()->withErrors(['error' => 'Failed to update category.']);
+            }
         } catch (\Exception $e) {
             return back()->withInput()->withErrors(['error' => 'Failed to create category.']);
         }
@@ -62,8 +72,7 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        $bearerToken = env('API_BEARER_TOKEN');
-        $response = Http::withToken($bearerToken)->get("https://laraveltests.cactuscrm.gr/api/categories/{$id}");
+        $response = Http::withToken($this->bearerToken)->get($this->baseUrl.`/${$id}`);
 
         $category = $response->json();
 
@@ -80,14 +89,17 @@ class CategoryController extends Controller
                 'name' => ['required', 'string', 'max:255'],
             ]);
 
-            $bearerToken = env('API_BEARER_TOKEN');
-            $response = Http::withToken($bearerToken)->patch("https://laraveltests.cactuscrm.gr/api/categories/{$id}", [
+            $response = Http::withToken($this->bearerToken)->patch($this->baseUrl.`/${$id}`, [
                 'name' => $request->input('name'),
             ]);
 
             $response->json();
 
-            return to_route('posts.index')->with('success', 'Category created successfully.');
+            if ($response->successful()) {
+                return to_route('categories.index')->with('success', 'Category updated successfully.');
+            } else {
+                return back()->withErrors(['error' => 'Failed to update category.']);
+            }
         } catch (\Exception $e) {
             return back()->withInput()->withErrors(['error' => 'Failed to create category.']);
         }
@@ -99,10 +111,15 @@ class CategoryController extends Controller
     public function destroy(string $id)
     {
         try {
-            $bearerToken = env('API_BEARER_TOKEN');
-            $response = Http::withToken($bearerToken)->delete("https://laraveltests.cactuscrm.gr/api/categories/{$id}");
+            $response = Http::withToken($this->bearerToken)->delete($this->baseUrl.`/${$id}`);
 
-            return to_route('posts.index')->with('success', 'Category deleted successfully.');
+            $response->json();
+
+            if ($response->successful()) {
+                return to_route('categories.index')->with('success', 'Category deleted successfully.');
+            } else {
+                return back()->withErrors(['error' => 'Failed to delete category.']);
+            }
         } catch (\Exception $e) {
             return back()->withInput()->withErrors(['error' => 'Failed to delete this category.']);
         }
