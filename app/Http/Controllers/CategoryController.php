@@ -55,8 +55,6 @@ class CategoryController extends Controller
                 'name' => $request->input('name'),
             ]);
 
-            $response->json();
-
             if ($response->successful()) {
                 return to_route('categories.index')->with('success', 'Category created successfully.');
             } else {
@@ -93,8 +91,6 @@ class CategoryController extends Controller
                 'name' => $request->input('name'),
             ]);
 
-            $response->json();
-
             if ($response->successful()) {
                 return to_route('categories.index')->with('success', 'Category updated successfully.');
             } else {
@@ -112,8 +108,6 @@ class CategoryController extends Controller
     {
         try {
             $response = Http::withToken($this->bearerToken)->delete($this->baseUrl.`/${$id}`);
-
-            $response->json();
 
             if ($response->successful()) {
                 return to_route('categories.index')->with('success', 'Category deleted successfully.');
