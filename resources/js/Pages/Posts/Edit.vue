@@ -37,7 +37,7 @@ const submit = () => {
         onError: () => new FilamentNotification()
             .title('Error :/.')
             .danger()
-            .body('Failed to update this category.')
+            .body('Failed to update this post.')
             .send(),
     });
 };

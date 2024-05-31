@@ -34,7 +34,7 @@ const submit = () => {
         onError: () => new FilamentNotification()
             .title('Error :/.')
             .danger()
-            .body('Failed to create category.')
+            .body('Failed to create post.')
             .send(),
     });
 };
