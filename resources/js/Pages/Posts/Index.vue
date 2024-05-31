@@ -25,8 +25,8 @@ const destroy = (postId) => {
     });
 };
 
-const edit = (categoryId) => {
-    router.get(route("categories.edit", { category: categoryId }));
+const edit = (postId) => {
+    router.get(route("posts.edit", { post: postId }));
 };
 </script>
 
