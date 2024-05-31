@@ -70,7 +70,7 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        $response = Http::withToken($this->bearerToken)->get($this->baseUrl.`/${$id}`);
+        $response = Http::withToken($this->bearerToken)->get("$this->baseUrl/{$id}");
 
         $category = $response->json();
 
@@ -87,7 +87,7 @@ class CategoryController extends Controller
                 'name' => ['required', 'string', 'max:255'],
             ]);
 
-            $response = Http::withToken($this->bearerToken)->patch($this->baseUrl.`/${$id}`, [
+            $response = Http::withToken($this->bearerToken)->patch("$this->baseUrl/{$id}", [
                 'name' => $request->input('name'),
             ]);
 
@@ -107,7 +107,7 @@ class CategoryController extends Controller
     public function destroy(string $id)
     {
         try {
-            $response = Http::withToken($this->bearerToken)->delete($this->baseUrl.`/${$id}`);
+            $response = Http::withToken($this->bearerToken)->delete("$this->baseUrl/{$id}");
 
             if ($response->successful()) {
                 return to_route('categories.index')->with('success', 'Category deleted successfully.');
