@@ -49,9 +49,7 @@ class PostController extends Controller
         ]);
 
         $tags = collect($request->input('tags'))->map(function ($tag) {
-            return [
-                'id' => (int) $tag['id'],
-            ];
+            return (int) $tag['id'];
         })->toArray();
 
         $bearerToken = env('API_BEARER_TOKEN');
@@ -61,7 +59,7 @@ class PostController extends Controller
             'image' => $request->input('image'),
             'categoryId' => $request->input('category'),
             'subCategoryId' => $request->input('subCategory'),
-            'tags' => $tags,
+            'tagsIds' => $tags,
         ]);
 
         $response->json();
@@ -103,9 +101,7 @@ class PostController extends Controller
         ]);
 
         $tags = collect($request->input('tags'))->map(function ($tag) {
-            return [
-                'id' => (int) $tag['id'],
-            ];
+            return (int) $tag['id'];
         })->toArray();
 
         $bearerToken = env('API_BEARER_TOKEN');
@@ -115,7 +111,7 @@ class PostController extends Controller
             'image' => $request->input('image'),
             'categoryId' => $request->input('category'),
             'subCategoryId' => $request->input('subCategory'),
-            'tags' => $tags,
+            'tagsIds' => $tags,
         ]);
 
         $response->json();
