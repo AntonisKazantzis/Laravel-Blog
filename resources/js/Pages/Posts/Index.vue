@@ -102,7 +102,7 @@ const edit = (postId) => {
                         <img class="w-full h-full object-cover rounded" :src="post.image" alt="" />
 
                         <div class="absolute top-2 md:right-2 md:justify-none justify-between md:w-auto w-full flex">
-                            <button type="button" @click="destroy(post.id)"
+                            <button type="button" @click.prevent="destroy(post.id)"
                                 class="bg-zinc-300 text-black p-2 rounded-full md:mr-2 ml-2">
                                 <IconX :size="18" />
                             </button>

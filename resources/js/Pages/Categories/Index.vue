@@ -66,7 +66,7 @@ const edit = (categoryId) => {
 
                         <div class="flex-1 relative">
                             <div class="absolute bottom-6 items-center flex justify-center w-full gap-4">
-                                <button type="button" @click="destroy(category.id)"
+                                <button type="button" @click.prevent="destroy(category.id)"
                                     class="bg-zinc-300 text-black p-2 rounded-full">
                                     <IconX :size="18" />
                                 </button>
