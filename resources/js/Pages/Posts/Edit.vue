@@ -15,15 +15,39 @@ const props = defineProps({
     posts: Object,
 });
 
+// Initialize categories and subcategories
+let categories = {};
+let subCategories = {};
+let tags = {};
+
+// Populate categories and subcategories from posts
+props.posts.forEach(post => {
+    if (post.category && !categories.hasOwnProperty(post.category.id)) {
+        categories[post.category.id] = post.category.name;
+    }
+    if (post.subCategory && !subCategories.hasOwnProperty(post.subCategory.id)) {
+        subCategories[post.subCategory.id] = post.subCategory.name;
+    }
+    if (post.tags) {
+        post.tags.forEach(tag => {
+            const tagId = parseInt(tag.id);
+            if (!tags.hasOwnProperty(tagId)) {
+                tags[tagId] = tag.name;
+            }
+        });
+    }
+});
+
 const form = useForm({
     _method: "PUT",
     title: props.post.title,
     body: props.post.body,
     image: props.post.image,
-    category: props.post.category,
-    subCategory: props.post.subCategory,
-    tags: props.post.tags,
+    category: props.post.category.id,
+    subCategory: props.post.subCategory.id,
+    tags: props.post.tags
 });
+
 
 const submit = () => {
     form.post(route("posts.update", { post: props.post.id }), {
@@ -41,33 +65,6 @@ const submit = () => {
             .send(),
     });
 };
-
-let categories = {};
-let subCategories = {};
-let tags = {};
-
-props.posts.forEach(post => {
-    if (post.category && !categories.hasOwnProperty(post.category.id)) {
-        categories[post.category.id] = post.category.name;
-    }
-});
-
-props.posts.forEach(post => {
-    if (post.subCategory && !subCategories.hasOwnProperty(post.subCategory.id)) {
-        subCategories[post.subCategory.id] = post.subCategory.name;
-    }
-});
-
-props.posts.forEach(post => {
-    if (post.tags) {
-        post.tags.forEach(tag => {
-            const tagId = parseInt(tag.id);
-            if (!tags.hasOwnProperty(tagId)) {
-                tags[tagId] = tag.name;
-            }
-        });
-    }
-});
 </script>
 
 <template>
