@@ -98,13 +98,13 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        $bearerToken = env('API_BEARER_TOKEN');
-        $response = Http::withToken($bearerToken)->delete("https://laraveltests.cactuscrm.gr/api/categories/{$id}");
+        try {
+            $bearerToken = env('API_BEARER_TOKEN');
+            $response = Http::withToken($bearerToken)->delete("https://laraveltests.cactuscrm.gr/api/categories/{$id}");
 
-        if ($response->successful()) {
-            return to_route('categories.index')->with('success', 'Category deleted successfully.');
-        } else {
-            return back()->withErrors(['error' => 'Failed to delete category.']);
+            return to_route('posts.index')->with('success', 'Category deleted successfully.');
+        } catch (\Exception $e) {
+            return back()->withInput()->withErrors(['error' => 'Failed to delete this category.']);
         }
     }
 }

@@ -128,13 +128,13 @@ class PostController extends Controller
      */
     public function destroy(string $id)
     {
-        $bearerToken = env('API_BEARER_TOKEN');
-        $response = Http::withToken($bearerToken)->delete("https://laraveltests.cactuscrm.gr/api/posts/{$id}");
+        try {
+            $bearerToken = env('API_BEARER_TOKEN');
+            $response = Http::withToken($bearerToken)->delete("https://laraveltests.cactuscrm.gr/api/posts/{$id}");
 
-        if ($response->successful()) {
             return to_route('posts.index')->with('success', 'Post deleted successfully.');
-        } else {
-            return back()->withErrors(['error' => 'Failed to delete post.']);
+        } catch (\Exception $e) {
+            return back()->withInput()->withErrors(['error' => 'Failed to delete this post.']);
         }
     }
 }
