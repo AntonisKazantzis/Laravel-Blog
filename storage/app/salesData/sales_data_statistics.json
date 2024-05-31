@@ -1,0 +1,72 @@
+[
+    {
+        "productId": 1,
+        "productName": "Wireless Mouse",
+        "sales": 120,
+        "revenue": 2400,
+        "lastSaleDate": "2023-05-15"
+    },
+    {
+        "productId": 2,
+        "productName": "Bluetooth Headphones",
+        "sales": 80,
+        "revenue": 3200,
+        "lastSaleDate": "2023-05-14"
+    },
+    {
+        "productId": 3,
+        "productName": "Running Shoes",
+        "sales": 200,
+        "revenue": 10000,
+        "lastSaleDate": "2023-05-13"
+    },
+    {
+        "productId": 4,
+        "productName": "Coffee Maker",
+        "sales": 50,
+        "revenue": 1500,
+        "lastSaleDate": "2023-05-12"
+    },
+    {
+        "productId": 5,
+        "productName": "Water Bottle",
+        "sales": 150,
+        "revenue": 2250,
+        "lastSaleDate": "2023-05-11"
+    },
+    {
+        "productId": 6,
+        "productName": "Smartphone",
+        "sales": 300,
+        "revenue": 150000,
+        "lastSaleDate": "2023-05-10"
+    },
+    {
+        "productId": 7,
+        "productName": "Laptop",
+        "sales": 200,
+        "revenue": 200000,
+        "lastSaleDate": "2023-05-09"
+    },
+    {
+        "productId": 8,
+        "productName": "Tablet",
+        "sales": 150,
+        "revenue": 75000,
+        "lastSaleDate": "2023-05-08"
+    },
+    {
+        "productId": 9,
+        "productName": "Smart Watch",
+        "sales": 100,
+        "revenue": 25000,
+        "lastSaleDate": "2023-05-07"
+    },
+    {
+        "productId": 10,
+        "productName": "Smart TV",
+        "sales": 80,
+        "revenue": 48000,
+        "lastSaleDate": "2023-05-06"
+    }
+]

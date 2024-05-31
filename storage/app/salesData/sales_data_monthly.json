@@ -1,0 +1,88 @@
+{
+  "labels": [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ],
+  "datasets": [
+    {
+      "label": "Wireless Mouse",
+      "data": [120, 150, 170, 130, 180, 190, 210, 230, 220, 240, 250, 260],
+      "backgroundColor": "rgba(75, 192, 192, 0.2)",
+      "borderColor": "rgba(75, 192, 192, 1)",
+      "borderWidth": 1
+    },
+    {
+      "label": "Bluetooth Headphones",
+      "data": [80, 95, 100, 85, 110, 120, 130, 140, 145, 150, 155, 160],
+      "backgroundColor": "rgba(255, 99, 132, 0.2)",
+      "borderColor": "rgba(255, 99, 132, 1)",
+      "borderWidth": 1
+    },
+    {
+      "label": "Running Shoes",
+      "data": [200, 220, 230, 210, 240, 250, 260, 270, 280, 290, 300, 310],
+      "backgroundColor": "rgba(54, 162, 235, 0.2)",
+      "borderColor": "rgba(54, 162, 235, 1)",
+      "borderWidth": 1
+    },
+    {
+      "label": "Coffee Maker",
+      "data": [50, 60, 70, 55, 75, 80, 85, 90, 95, 100, 105, 110],
+      "backgroundColor": "rgba(255, 206, 86, 0.2)",
+      "borderColor": "rgba(255, 206, 86, 1)",
+      "borderWidth": 1
+    },
+    {
+      "label": "Water Bottle",
+      "data": [150, 160, 170, 160, 180, 190, 200, 210, 220, 230, 240, 250],
+      "backgroundColor": "rgba(153, 102, 255, 0.2)",
+      "borderColor": "rgba(153, 102, 255, 1)",
+      "borderWidth": 1
+    },
+    {
+      "label": "Smartphone",
+      "data": [300, 320, 330, 310, 340, 350, 360, 370, 380, 390, 400, 410],
+      "backgroundColor": "rgba(255, 159, 64, 0.2)",
+      "borderColor": "rgba(255, 159, 64, 1)",
+      "borderWidth": 1
+    },
+    {
+      "label": "Laptop",
+      "data": [200, 220, 240, 230, 250, 260, 270, 280, 290, 300, 310, 320],
+      "backgroundColor": "rgba(75, 192, 192, 0.2)",
+      "borderColor": "rgba(75, 192, 192, 1)",
+      "borderWidth": 1
+    },
+    {
+      "label": "Tablet",
+      "data": [150, 160, 170, 160, 180, 190, 200, 210, 220, 230, 240, 250],
+      "backgroundColor": "rgba(54, 162, 235, 0.2)",
+      "borderColor": "rgba(54, 162, 235, 1)",
+      "borderWidth": 1
+    },
+    {
+      "label": "Smart Watch",
+      "data": [100, 110, 120, 115, 125, 130, 135, 140, 145, 150, 155, 160],
+      "backgroundColor": "rgba(255, 99, 132, 0.2)",
+      "borderColor": "rgba(255, 99, 132, 1)",
+      "borderWidth": 1
+    },
+    {
+      "label": "Smart TV",
+      "data": [80, 85, 90, 85, 95, 100, 105, 110, 115, 120, 125, 130],
+      "backgroundColor": "rgba(153, 102, 255, 0.2)",
+      "borderColor": "rgba(153, 102, 255, 1)",
+      "borderWidth": 1
+    }
+  ]
+}

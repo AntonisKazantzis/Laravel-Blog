@@ -1,0 +1,904 @@
+{
+  "salesData": [
+    {
+      "productId": 1,
+      "product": "Wireless Mouse",
+      "productSlug": "wireless-mouse",
+      "stock": 120,
+      "description": "Ergonomic wireless mouse with adjustable DPI settings.",
+      "category": "Electronics",
+      "color": "Black"
+    },
+    {
+      "productId": 2,
+      "product": "Bluetooth Headphones",
+      "productSlug": "bluetooth-headphones",
+      "stock": 80,
+      "description": "Over-ear Bluetooth headphones with noise-canceling feature.",
+      "category": "Electronics",
+      "color": "Black"
+    },
+    {
+      "productId": 3,
+      "product": "Running Shoes",
+      "productSlug": "running-shoes",
+      "stock": 200,
+      "description": "Lightweight running shoes with breathable material.",
+      "category": "Footwear",
+      "color": "Blue"
+    },
+    {
+      "productId": 4,
+      "product": "Coffee Maker",
+      "productSlug": "coffee-maker",
+      "stock": 50,
+      "description": "Automatic drip coffee maker with programmable settings.",
+      "category": "Home Appliances",
+      "color": "Silver"
+    },
+    {
+      "productId": 5,
+      "product": "Water Bottle",
+      "productSlug": "water-bottle",
+      "stock": 150,
+      "description": "Stainless steel water bottle with double-wall insulation.",
+      "category": "Accessories",
+      "color": "Red"
+    },
+    {
+      "productId": 6,
+      "product": "Yoga Mat",
+      "productSlug": "yoga-mat",
+      "stock": 75,
+      "description": "Eco-friendly yoga mat with non-slip surface.",
+      "category": "Fitness",
+      "color": "Green"
+    },
+    {
+      "productId": 7,
+      "product": "Desk Lamp",
+      "productSlug": "desk-lamp",
+      "stock": 90,
+      "description": "LED desk lamp with adjustable brightness and angle.",
+      "category": "Office Supplies",
+      "color": "White"
+    },
+    {
+      "productId": 8,
+      "product": "Cookware Set",
+      "productSlug": "cookware-set",
+      "stock": 40,
+      "description": "Non-stick cookware set with pots and pans.",
+      "category": "Kitchen",
+      "color": "Black"
+    },
+    {
+      "productId": 9,
+      "product": "Backpack",
+      "productSlug": "backpack",
+      "stock": 130,
+      "description": "Durable backpack with multiple compartments and padded straps.",
+      "category": "Bags",
+      "color": "Gray"
+    },
+    {
+      "productId": 10,
+      "product": "Smart Watch",
+      "productSlug": "smart-watch",
+      "stock": 60,
+      "description": "Waterproof smart watch with fitness tracking features.",
+      "category": "Wearables",
+      "color": "Black"
+    },
+    {
+      "productId": 11,
+      "product": "Gaming Keyboard",
+      "productSlug": "gaming-keyboard",
+      "stock": 55,
+      "description": "Mechanical gaming keyboard with RGB backlight.",
+      "category": "Electronics",
+      "color": "Black"
+    },
+    {
+      "productId": 12,
+      "product": "Laptop Stand",
+      "productSlug": "laptop-stand",
+      "stock": 100,
+      "description": "Adjustable aluminum laptop stand.",
+      "category": "Office Supplies",
+      "color": "Silver"
+    },
+    {
+      "productId": 13,
+      "product": "Electric Toothbrush",
+      "productSlug": "electric-toothbrush",
+      "stock": 75,
+      "description": "Rechargeable electric toothbrush with multiple modes.",
+      "category": "Personal Care",
+      "color": "White"
+    },
+    {
+      "productId": 14,
+      "product": "Wireless Charger",
+      "productSlug": "wireless-charger",
+      "stock": 120,
+      "description": "Fast wireless charger for smartphones.",
+      "category": "Electronics",
+      "color": "Black"
+    },
+    {
+      "productId": 15,
+      "product": "Travel Mug",
+      "productSlug": "travel-mug",
+      "stock": 90,
+      "description": "Insulated travel mug with spill-proof lid.",
+      "category": "Accessories",
+      "color": "Blue"
+    },
+    {
+      "productId": 16,
+      "product": "Digital Camera",
+      "productSlug": "digital-camera",
+      "stock": 40,
+      "description": "Compact digital camera with high resolution.",
+      "category": "Electronics",
+      "color": "Black"
+    },
+    {
+      "productId": 17,
+      "product": "Fitness Tracker",
+      "productSlug": "fitness-tracker",
+      "stock": 85,
+      "description": "Fitness tracker with heart rate monitor.",
+      "category": "Wearables",
+      "color": "Black"
+    },
+    {
+      "productId": 18,
+      "product": "Bluetooth Speaker",
+      "productSlug": "bluetooth-speaker",
+      "stock": 65,
+      "description": "Portable Bluetooth speaker with deep bass.",
+      "category": "Electronics",
+      "color": "Red"
+    },
+    {
+      "productId": 19,
+      "product": "Electric Kettle",
+      "productSlug": "electric-kettle",
+      "stock": 70,
+      "description": "Electric kettle with auto shut-off feature.",
+      "category": "Home Appliances",
+      "color": "White"
+    },
+    {
+      "productId": 20,
+      "product": "Action Camera",
+      "productSlug": "action-camera",
+      "stock": 55,
+      "description": "Waterproof action camera with 4K recording.",
+      "category": "Electronics",
+      "color": "Black"
+    },
+    {
+      "productId": 21,
+      "product": "Smart Thermostat",
+      "productSlug": "smart-thermostat",
+      "stock": 45,
+      "description": "WiFi-enabled smart thermostat with app control.",
+      "category": "Home Appliances",
+      "color": "White"
+    },
+    {
+      "productId": 22,
+      "product": "Electric Scooter",
+      "productSlug": "electric-scooter",
+      "stock": 30,
+      "description": "Foldable electric scooter with long battery life.",
+      "category": "Transport",
+      "color": "Black"
+    },
+    {
+      "productId": 23,
+      "product": "Portable Projector",
+      "productSlug": "portable-projector",
+      "stock": 25,
+      "description": "Compact portable projector with HD resolution.",
+      "category": "Electronics",
+      "color": "White"
+    },
+    {
+      "productId": 24,
+      "product": "Air Purifier",
+      "productSlug": "air-purifier",
+      "stock": 60,
+      "description": "HEPA air purifier with smart sensor.",
+      "category": "Home Appliances",
+      "color": "White"
+    },
+    {
+      "productId": 25,
+      "product": "Fitness Band",
+      "productSlug": "fitness-band",
+      "stock": 95,
+      "description": "Fitness band with step tracking and notifications.",
+      "category": "Wearables",
+      "color": "Blue"
+    },
+    {
+      "productId": 26,
+      "product": "Electric Shaver",
+      "productSlug": "electric-shaver",
+      "stock": 80,
+      "description": "Rechargeable electric shaver with precision blades.",
+      "category": "Personal Care",
+      "color": "Silver"
+    },
+    {
+      "productId": 27,
+      "product": "Smart Doorbell",
+      "productSlug": "smart-doorbell",
+      "stock": 50,
+      "description": "Smart doorbell with camera and two-way audio.",
+      "category": "Home Security",
+      "color": "Black"
+    },
+    {
+      "productId": 28,
+      "product": "Laptop Bag",
+      "productSlug": "laptop-bag",
+      "stock": 110,
+      "description": "Water-resistant laptop bag with padded compartment.",
+      "category": "Bags",
+      "color": "Gray"
+    },
+    {
+      "productId": 29,
+      "product": "Wireless Earbuds",
+      "productSlug": "wireless-earbuds",
+      "stock": 100,
+      "description": "True wireless earbuds with touch control.",
+      "category": "Electronics",
+      "color": "White"
+    },
+    {
+      "productId": 30,
+      "product": "USB Hub",
+      "productSlug": "usb-hub",
+      "stock": 150,
+      "description": "Multi-port USB hub with fast charging.",
+      "category": "Electronics",
+      "color": "Black"
+    },
+    {
+      "productId": 31,
+      "product": "Mechanical Keyboard",
+      "productSlug": "mechanical-keyboard",
+      "stock": 50,
+      "description": "RGB mechanical keyboard with customizable keys.",
+      "category": "Electronics",
+      "color": "Black"
+    },
+    {
+      "productId": 32,
+      "product": "Digital Thermometer",
+      "productSlug": "digital-thermometer",
+      "stock": 75,
+      "description": "Instant-read digital thermometer for cooking.",
+      "category": "Kitchen",
+      "color": "Silver"
+    },
+    {
+      "productId": 33,
+      "product": "Electric Drill",
+      "productSlug": "electric-drill",
+      "stock": 45,
+      "description": "Cordless electric drill with multiple drill bits.",
+      "category": "Tools",
+      "color": "Blue"
+    },
+    {
+      "productId": 34,
+      "product": "Hair Dryer",
+      "productSlug": "hair-dryer",
+      "stock": 85,
+      "description": "Professional hair dryer with multiple heat settings.",
+      "category": "Personal Care",
+      "color": "Black"
+    },
+    {
+      "productId": 35,
+      "product": "Espresso Machine",
+      "productSlug": "espresso-machine",
+      "stock": 30,
+      "description": "Compact espresso machine with frother.",
+      "category": "Kitchen",
+      "color": "Black"
+    },
+    {
+      "productId": 36,
+      "product": "Air Fryer",
+      "productSlug": "air-fryer",
+      "stock": 65,
+      "description": "Digital air fryer with adjustable temperature.",
+      "category": "Kitchen",
+      "color": "White"
+    },
+    {
+      "productId": 37,
+      "product": "Cordless Vacuum",
+      "productSlug": "cordless-vacuum",
+      "stock": 40,
+      "description": "Lightweight cordless vacuum cleaner with strong suction.",
+      "category": "Home Appliances",
+      "color": "Silver"
+    },
+    {
+      "productId": 38,
+      "product": "Smart Light Bulbs",
+      "productSlug": "smart-light-bulbs",
+      "stock": 100,
+      "description": "WiFi-enabled smart light bulbs with app control.",
+      "category": "Home Appliances",
+      "color": "White"
+    },
+    {
+      "productId": 39,
+      "product": "Portable Charger",
+      "productSlug": "portable-charger",
+      "stock": 90,
+      "description": "High-capacity portable charger with fast charging.",
+      "category": "Accessories",
+      "color": "Black"
+    },
+    {
+      "productId": 40,
+      "product": "Smart Lock",
+      "productSlug": "smart-lock",
+      "stock": 35,
+      "description": "Bluetooth-enabled smart lock with keypad.",
+      "category": "Home Security",
+      "color": "Black"
+    },
+    {
+      "productId": 41,
+      "product": "Noise-Canceling Headphones",
+      "productSlug": "noise-canceling-headphones",
+      "stock": 70,
+      "description": "Over-ear headphones with active noise cancellation.",
+      "category": "Electronics",
+      "color": "Black"
+    },
+    {
+      "productId": 42,
+      "product": "Hand Blender",
+      "productSlug": "hand-blender",
+      "stock": 55,
+      "description": "Handheld blender with variable speed control.",
+      "category": "Kitchen",
+      "color": "White"
+    },
+    {
+      "productId": 43,
+      "product": "Smart Scale",
+      "productSlug": "smart-scale",
+      "stock": 75,
+      "description": "Digital smart scale with body composition analysis.",
+      "category": "Fitness",
+      "color": "Black"
+    },
+    {
+      "productId": 44,
+      "product": "Robot Vacuum",
+      "productSlug": "robot-vacuum",
+      "stock": 25,
+      "description": "WiFi-enabled robot vacuum with self-charging.",
+      "category": "Home Appliances",
+      "color": "White"
+    },
+    {
+      "productId": 45,
+      "product": "Instant Pot",
+      "productSlug": "instant-pot",
+      "stock": 50,
+      "description": "Multi-functional electric pressure cooker.",
+      "category": "Kitchen",
+      "color": "Black"
+    },
+    {
+      "productId": 46,
+      "product": "Portable Blender",
+      "productSlug": "portable-blender",
+      "stock": 85,
+      "description": "Rechargeable portable blender with USB charging.",
+      "category": "Kitchen",
+      "color": "Green"
+    },
+    {
+      "productId": 47,
+      "product": "Streaming Device",
+      "productSlug": "streaming-device",
+      "stock": 60,
+      "description": "4K streaming device with voice remote.",
+      "category": "Electronics",
+      "color": "Black"
+    },
+    {
+      "productId": 48,
+      "product": "Electric Blanket",
+      "productSlug": "electric-blanket",
+      "stock": 40,
+      "description": "Electric blanket with adjustable heat settings.",
+      "category": "Home",
+      "color": "Gray"
+    },
+    {
+      "productId": 49,
+      "product": "Smart Mug",
+      "productSlug": "smart-mug",
+      "stock": 30,
+      "description": "Temperature-controlled smart mug with app.",
+      "category": "Kitchen",
+      "color": "White"
+    },
+    {
+      "productId": 50,
+      "product": "Electric Grill",
+      "productSlug": "electric-grill",
+      "stock": 55,
+      "description": "Smokeless electric grill with adjustable temperature.",
+      "category": "Kitchen",
+      "color": "Black"
+    },
+    {
+      "productId": 51,
+      "product": "Water Purifier",
+      "productSlug": "water-purifier",
+      "stock": 45,
+      "description": "Under-sink water purifier with multiple filters.",
+      "category": "Kitchen",
+      "color": "White"
+    },
+    {
+      "productId": 52,
+      "product": "Cordless Hair Clipper",
+      "productSlug": "cordless-hair-clipper",
+      "stock": 65,
+      "description": "Rechargeable cordless hair clipper with multiple attachments.",
+      "category": "Personal Care",
+      "color": "Black"
+    },
+    {
+      "productId": 53,
+      "product": "Soundbar",
+      "productSlug": "soundbar",
+      "stock": 35,
+      "description": "Compact soundbar with Bluetooth connectivity.",
+      "category": "Electronics",
+      "color": "Black"
+    },
+    {
+      "productId": 54,
+      "product": "Smart Bulb Starter Kit",
+      "productSlug": "smart-bulb-starter-kit",
+      "stock": 75,
+      "description": "Starter kit with smart bulbs and hub.",
+      "category": "Home Appliances",
+      "color": "White"
+    },
+    {
+      "productId": 55,
+      "product": "Ergonomic Chair",
+      "productSlug": "ergonomic-chair",
+      "stock": 20,
+      "description": "Adjustable ergonomic office chair with lumbar support.",
+      "category": "Office Supplies",
+      "color": "Black"
+    },
+    {
+      "productId": 56,
+      "product": "Steam Iron",
+      "productSlug": "steam-iron",
+      "stock": 65,
+      "description": "Steam iron with ceramic soleplate.",
+      "category": "Home Appliances",
+      "color": "Blue"
+    },
+    {
+      "productId": 57,
+      "product": "Pressure Washer",
+      "productSlug": "pressure-washer",
+      "stock": 30,
+      "description": "Electric pressure washer with high PSI.",
+      "category": "Tools",
+      "color": "Yellow"
+    },
+    {
+      "productId": 58,
+      "product": "Wireless Router",
+      "productSlug": "wireless-router",
+      "stock": 80,
+      "description": "Dual-band wireless router with high speed.",
+      "category": "Electronics",
+      "color": "Black"
+    },
+    {
+      "productId": 59,
+      "product": "Sewing Machine",
+      "productSlug": "sewing-machine",
+      "stock": 25,
+      "description": "Portable sewing machine with multiple stitches.",
+      "category": "Home",
+      "color": "White"
+    },
+    {
+      "productId": 60,
+      "product": "Smart Plug",
+      "productSlug": "smart-plug",
+      "stock": 90,
+      "description": "WiFi smart plug with energy monitoring.",
+      "category": "Home Appliances",
+      "color": "White"
+    },
+    {
+      "productId": 61,
+      "product": "Wireless Security Camera",
+      "productSlug": "wireless-security-camera",
+      "stock": 40,
+      "description": "Wireless security camera with night vision.",
+      "category": "Home Security",
+      "color": "White"
+    },
+    {
+      "productId": 62,
+      "product": "Electric Toothbrush Refill",
+      "productSlug": "electric-toothbrush-refill",
+      "stock": 120,
+      "description": "Replacement brush heads for electric toothbrush.",
+      "category": "Personal Care",
+      "color": "White"
+    },
+    {
+      "productId": 63,
+      "product": "Portable Air Conditioner",
+      "productSlug": "portable-air-conditioner",
+      "stock": 30,
+      "description": "Portable air conditioner with remote control.",
+      "category": "Home Appliances",
+      "color": "White"
+    },
+    {
+      "productId": 64,
+      "product": "Gaming Headset",
+      "productSlug": "gaming-headset",
+      "stock": 65,
+      "description": "Over-ear gaming headset with surround sound.",
+      "category": "Electronics",
+      "color": "Black"
+    },
+    {
+      "productId": 65,
+      "product": "Indoor Grill",
+      "productSlug": "indoor-grill",
+      "stock": 45,
+      "description": "Smokeless indoor grill with adjustable temperature.",
+      "category": "Kitchen",
+      "color": "Black"
+    },
+    {
+      "productId": 66,
+      "product": "Electric Skillet",
+      "productSlug": "electric-skillet",
+      "stock": 55,
+      "description": "Non-stick electric skillet with glass lid.",
+      "category": "Kitchen",
+      "color": "Black"
+    },
+    {
+      "productId": 67,
+      "product": "Digital Frame",
+      "productSlug": "digital-frame",
+      "stock": 50,
+      "description": "WiFi digital photo frame with HD display.",
+      "category": "Home",
+      "color": "Black"
+    },
+    {
+      "productId": 68,
+      "product": "Portable Air Purifier",
+      "productSlug": "portable-air-purifier",
+      "stock": 70,
+      "description": "Compact portable air purifier with USB power.",
+      "category": "Home Appliances",
+      "color": "White"
+    },
+    {
+      "productId": 69,
+      "product": "Electric Can Opener",
+      "productSlug": "electric-can-opener",
+      "stock": 75,
+      "description": "Hands-free electric can opener.",
+      "category": "Kitchen",
+      "color": "Silver"
+    },
+    {
+      "productId": 70,
+      "product": "Smart Outdoor Plug",
+      "productSlug": "smart-outdoor-plug",
+      "stock": 55,
+      "description": "Weather-resistant smart plug for outdoor use.",
+      "category": "Home Appliances",
+      "color": "Black"
+    },
+    {
+      "productId": 71,
+      "product": "Wireless Charger Stand",
+      "productSlug": "wireless-charger-stand",
+      "stock": 95,
+      "description": "Fast wireless charger stand for smartphones.",
+      "category": "Electronics",
+      "color": "White"
+    },
+    {
+      "productId": 72,
+      "product": "Smart Light Switch",
+      "productSlug": "smart-light-switch",
+      "stock": 85,
+      "description": "WiFi-enabled smart light switch with app control.",
+      "category": "Home Appliances",
+      "color": "White"
+    },
+    {
+      "productId": 73,
+      "product": "Electric Pressure Cooker",
+      "productSlug": "electric-pressure-cooker",
+      "stock": 40,
+      "description": "Multi-functional electric pressure cooker.",
+      "category": "Kitchen",
+      "color": "Black"
+    },
+    {
+      "productId": 74,
+      "product": "Portable Ice Maker",
+      "productSlug": "portable-ice-maker",
+      "stock": 30,
+      "description": "Compact portable ice maker with fast freezing.",
+      "category": "Kitchen",
+      "color": "Silver"
+    },
+    {
+      "productId": 75,
+      "product": "Electric Shaver Refills",
+      "productSlug": "electric-shaver-refills",
+      "stock": 80,
+      "description": "Replacement blades for electric shaver.",
+      "category": "Personal Care",
+      "color": "Silver"
+    },
+    {
+      "productId": 76,
+      "product": "Gaming Monitor",
+      "productSlug": "gaming-monitor",
+      "stock": 45,
+      "description": "Curved gaming monitor with high refresh rate.",
+      "category": "Electronics",
+      "color": "Black"
+    },
+    {
+      "productId": 77,
+      "product": "Smart Light Strip",
+      "productSlug": "smart-light-strip",
+      "stock": 90,
+      "description": "Color-changing smart light strip with app control.",
+      "category": "Home Appliances",
+      "color": "White"
+    },
+    {
+      "productId": 78,
+      "product": "Wireless Charging Pad",
+      "productSlug": "wireless-charging-pad",
+      "stock": 100,
+      "description": "Fast wireless charging pad for smartphones.",
+      "category": "Electronics",
+      "color": "Black"
+    },
+    {
+      "productId": 79,
+      "product": "Smart Thermostat",
+      "productSlug": "smart-thermostat",
+      "stock": 55,
+      "description": "WiFi-enabled smart thermostat with app control.",
+      "category": "Home Appliances",
+      "color": "White"
+    },
+    {
+      "productId": 80,
+      "product": "Electric Toothbrush Holder",
+      "productSlug": "electric-toothbrush-holder",
+      "stock": 70,
+      "description": "Wall-mounted electric toothbrush holder.",
+      "category": "Personal Care",
+      "color": "White"
+    },
+    {
+      "productId": 81,
+      "product": "Gaming Chair",
+      "productSlug": "gaming-chair",
+      "stock": 25,
+      "description": "Ergonomic gaming chair with adjustable armrests.",
+      "category": "Furniture",
+      "color": "Black"
+    },
+    {
+      "productId": 82,
+      "product": "Electric Wine Opener",
+      "productSlug": "electric-wine-opener",
+      "stock": 40,
+      "description": "Rechargeable electric wine opener.",
+      "category": "Kitchen",
+      "color": "Silver"
+    },
+    {
+      "productId": 83,
+      "product": "Air Humidifier",
+      "productSlug": "air-humidifier",
+      "stock": 50,
+      "description": "Ultrasonic air humidifier with adjustable mist.",
+      "category": "Home Appliances",
+      "color": "White"
+    },
+    {
+      "productId": 84,
+      "product": "Fitness Tracker Refills",
+      "productSlug": "fitness-tracker-refills",
+      "stock": 100,
+      "description": "Replacement bands for fitness tracker.",
+      "category": "Wearables",
+      "color": "Black"
+    },
+    {
+      "productId": 85,
+      "product": "Smart Home Hub",
+      "productSlug": "smart-home-hub",
+      "stock": 45,
+      "description": "Smart home hub with voice control.",
+      "category": "Home Appliances",
+      "color": "White"
+    },
+    {
+      "productId": 86,
+      "product": "Portable Espresso Maker",
+      "productSlug": "portable-espresso-maker",
+      "stock": 30,
+      "description": "Portable espresso maker with manual pump.",
+      "category": "Kitchen",
+      "color": "Black"
+    },
+    {
+      "productId": 87,
+      "product": "Electric Bike",
+      "productSlug": "electric-bike",
+      "stock": 20,
+      "description": "Foldable electric bike with long battery life.",
+      "category": "Transport",
+      "color": "Black"
+    },
+    {
+      "productId": 88,
+      "product": "Portable Power Station",
+      "productSlug": "portable-power-station",
+      "stock": 25,
+      "description": "High-capacity portable power station with AC outlet.",
+      "category": "Electronics",
+      "color": "Black"
+    },
+    {
+      "productId": 89,
+      "product": "Electric Toothbrush Sanitizer",
+      "productSlug": "electric-toothbrush-sanitizer",
+      "stock": 50,
+      "description": "UV sanitizer for electric toothbrush heads.",
+      "category": "Personal Care",
+      "color": "White"
+    },
+    {
+      "productId": 90,
+      "product": "Electric Wine Chiller",
+      "productSlug": "electric-wine-chiller",
+      "stock": 35,
+      "description": "Portable electric wine chiller.",
+      "category": "Kitchen",
+      "color": "Black"
+    },
+    {
+      "productId": 91,
+      "product": "Smart Door Lock",
+      "productSlug": "smart-door-lock",
+      "stock": 40,
+      "description": "Bluetooth-enabled smart door lock.",
+      "category": "Home Security",
+      "color": "Black"
+    },
+    {
+      "productId": 92,
+      "product": "Portable Air Cooler",
+      "productSlug": "portable-air-cooler",
+      "stock": 60,
+      "description": "Portable air cooler with remote control.",
+      "category": "Home Appliances",
+      "color": "White"
+    },
+    {
+      "productId": 93,
+      "product": "Electric Heater",
+      "productSlug": "electric-heater",
+      "stock": 55,
+      "description": "Portable electric heater with thermostat.",
+      "category": "Home Appliances",
+      "color": "Black"
+    },
+    {
+      "productId": 94,
+      "product": "Electric Kettle",
+      "productSlug": "electric-kettle",
+      "stock": 80,
+      "description": "Electric kettle with auto shut-off feature.",
+      "category": "Kitchen",
+      "color": "Silver"
+    },
+    {
+      "productId": 95,
+      "product": "Smart Water Bottle",
+      "productSlug": "smart-water-bottle",
+      "stock": 75,
+      "description": "Hydration-tracking smart water bottle.",
+      "category": "Accessories",
+      "color": "Blue"
+    },
+    {
+      "productId": 96,
+      "product": "Electric Lunch Box",
+      "productSlug": "electric-lunch-box",
+      "stock": 40,
+      "description": "Portable electric lunch box with heating.",
+      "category": "Kitchen",
+      "color": "Blue"
+    },
+    {
+      "productId": 97,
+      "product": "Electric Facial Cleanser",
+      "productSlug": "electric-facial-cleanser",
+      "stock": 65,
+      "description": "Rechargeable electric facial cleanser.",
+      "category": "Personal Care",
+      "color": "Pink"
+    },
+    {
+      "productId": 98,
+      "product": "Electric Coffee Grinder",
+      "productSlug": "electric-coffee-grinder",
+      "stock": 50,
+      "description": "Electric coffee grinder with adjustable settings.",
+      "category": "Kitchen",
+      "color": "Black"
+    },
+    {
+      "productId": 99,
+      "product": "Electric Lawn Mower",
+      "productSlug": "electric-lawn-mower",
+      "stock": 25,
+      "description": "Cordless electric lawn mower with rechargeable battery.",
+      "category": "Tools",
+      "color": "Green"
+    },
+    {
+      "productId": 100,
+      "product": "Electric Toothbrush Set",
+      "productSlug": "electric-toothbrush-set",
+      "stock": 85,
+      "description": "Complete electric toothbrush set with multiple heads.",
+      "category": "Personal Care",
+      "color": "White"
+    }
+  ]
+}
