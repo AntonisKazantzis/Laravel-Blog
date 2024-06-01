@@ -60,7 +60,7 @@ class CategoryController extends Controller
                 return to_route('categories.index');
             }
 
-            return back();
+            return back()->withInput();
         } catch (\Exception $e) {
             return back()->withInput();
         }
@@ -96,7 +96,7 @@ class CategoryController extends Controller
                 return to_route('categories.index');
             }
 
-            return back();
+            return back()->withInput();
         } catch (\Exception $e) {
             return back()->withInput();
         }
@@ -116,7 +116,7 @@ class CategoryController extends Controller
 
             return back();
         } catch (\Exception $e) {
-            return back()->withInput();
+            return back();
         }
     }
 }

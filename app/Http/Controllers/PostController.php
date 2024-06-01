@@ -79,7 +79,7 @@ class PostController extends Controller
                 return to_route('posts.index');
             }
 
-            return back();
+            return back()->withInput();
         } catch (\Exception $e) {
             return back()->withInput();
         }
@@ -135,7 +135,7 @@ class PostController extends Controller
                 return to_route('posts.index');
             }
 
-            return back();
+            return back()->withInput();
         } catch (\Exception $e) {
             return back()->withInput();
         }
@@ -155,7 +155,7 @@ class PostController extends Controller
 
             return back();
         } catch (\Exception $e) {
-            return back()->withInput();
+            return back();
         }
     }
 }
