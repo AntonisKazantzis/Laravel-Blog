@@ -15,12 +15,10 @@ const props = defineProps({
     posts: Object,
 });
 
-// Initialize categories and subcategories
 let categories = {};
 let subCategories = {};
 let tags = {};
 
-// Populate categories and subcategories from posts
 props.posts.forEach(post => {
     if (post.category && !categories.hasOwnProperty(post.category.id)) {
         categories[post.category.id] = post.category.name;
