@@ -60,9 +60,9 @@ class CategoryController extends Controller
                 return to_route('categories.index')->with('success', 'Category created successfully.');
             }
 
-            return back()->withErrors(['error' => 'Failed to update category.']);
+            return back()->withErrors(['error' => 'Failed to create this category.']);
         } catch (\Exception $e) {
-            return back()->withInput()->withErrors(['error' => 'Failed to create category.']);
+            return back()->withInput()->withErrors(['error' => 'Failed to create this category.']);
         }
     }
 
@@ -96,9 +96,9 @@ class CategoryController extends Controller
                 return to_route('categories.index')->with('success', 'Category updated successfully.');
             }
 
-            return back()->withErrors(['error' => 'Failed to update category.']);
+            return back()->withErrors(['error' => 'Failed to update this category.']);
         } catch (\Exception $e) {
-            return back()->withInput()->withErrors(['error' => 'Failed to create category.']);
+            return back()->withInput()->withErrors(['error' => 'Failed to update this category.']);
         }
     }
 
@@ -114,7 +114,7 @@ class CategoryController extends Controller
                 return to_route('categories.index')->with('success', 'Category deleted successfully.');
             }
 
-            return back()->withErrors(['error' => 'Failed to delete category.']);
+            return back()->withErrors(['error' => 'Failed to delete this category.']);
         } catch (\Exception $e) {
             return back()->withInput()->withErrors(['error' => 'Failed to delete this category.']);
         }

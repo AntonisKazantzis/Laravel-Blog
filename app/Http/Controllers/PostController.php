@@ -79,9 +79,9 @@ class PostController extends Controller
                 return to_route('posts.index')->with('success', 'Post created successfully.');
             }
 
-            return back()->withErrors(['error' => 'Failed to create post.']);
+            return back()->withErrors(['error' => 'Failed to create this post.']);
         } catch (\Exception $e) {
-            return back()->withInput()->withErrors(['error' => 'Failed to create post.']);
+            return back()->withInput()->withErrors(['error' => 'Failed to create this post.']);
         }
     }
 
@@ -135,9 +135,9 @@ class PostController extends Controller
                 return to_route('posts.index')->with('success', 'Post updated successfully.');
             }
 
-            return back()->withErrors(['error' => 'Failed to update post.']);
+            return back()->withErrors(['error' => 'Failed to update this post.']);
         } catch (\Exception $e) {
-            return back()->withInput()->withErrors(['error' => 'Failed to update post.']);
+            return back()->withInput()->withErrors(['error' => 'Failed to update this post.']);
         }
     }
 
@@ -153,7 +153,7 @@ class PostController extends Controller
                 return to_route('posts.index')->with('success', 'Post deleted successfully.');
             }
 
-            return back()->withErrors(['error' => 'Failed to delete post.']);
+            return back()->withErrors(['error' => 'Failed to delete this post.']);
         } catch (\Exception $e) {
             return back()->withInput()->withErrors(['error' => 'Failed to delete this post.']);
         }
