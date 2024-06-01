@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class PostController extends Controller
@@ -76,12 +75,12 @@ class PostController extends Controller
                 ]);
 
             if ($response->successful()) {
-                return to_route('posts.index')->with('success', 'Post created successfully.');
+                return to_route('posts.index')->with(['messageTitle' => 'Created successfully', 'messageBody' => 'Post has been created.']);
             }
 
-            return back()->withInput()->withErrors(['error' => 'Failed to create this post.']);
+            return back()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to create post.']);
         } catch (\Exception $e) {
-            return back()->withInput()->withErrors(['error' => 'Failed to create this post.']);
+            return back()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to create post.']);
         }
     }
 
@@ -132,12 +131,12 @@ class PostController extends Controller
                 ]);
 
             if ($response->successful()) {
-                return to_route('posts.index')->with('success', 'Post updated successfully.');
+                return to_route('posts.index')->with(['messageTitle' => 'Updated successfully.', 'messageBody' => 'Post has been updated.']);
             }
 
-            return back()->withInput()->withErrors(['error' => 'Failed to update this post.']);
+            return back()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to update post.']);
         } catch (\Exception $e) {
-            return back()->withInput()->withErrors(['error' => 'Failed to update this post.']);
+            return back()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to update post.']);
         }
     }
 
@@ -150,12 +149,12 @@ class PostController extends Controller
             $response = Http::withToken($this->bearerToken)->delete("$this->baseUrl/{$id}");
 
             if ($response->successful()) {
-                return to_route('posts.index')->with('success', 'Post deleted successfully.');
+                return to_route('posts.index')->with(['messageTitle' => 'Deleted successfully.', 'messageBody' => 'Post has been deleted.']);
             }
 
-            return back()->withErrors(['error' => 'Failed to delete this post.']);
+            return back()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to delete post.']);
         } catch (\Exception $e) {
-            return back()->withErrors(['error' => 'Failed to delete this post.']);
+            return back()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to delete post.']);
         }
     }
 }

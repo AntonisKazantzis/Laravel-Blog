@@ -57,14 +57,14 @@ class CategoryController extends Controller
             ]);
 
             if ($response->successful()) {
-                return to_route('categories.index')->with('success', 'Category created successfully.');
+                return to_route('categories.index')->with(['messageTitle' => 'Created successfully.', 'messageBody' => 'Category has been created.']);
             }
 
 
-            return back()->withInput()->withErrors(['error' => 'Failed to create this category.']);
+            return back()->withInput()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to create category.']);
         } catch (\Exception $e) {
 
-            return back()->withInput()->withErrors(['error' => 'Failed to create this category.']);
+            return back()->withInput()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to create category.']);
         }
     }
 
@@ -95,14 +95,14 @@ class CategoryController extends Controller
             ]);
 
             if ($response->successful()) {
-                return to_route('categories.index')->with('success', 'Category updated successfully.');
+                return to_route('categories.index')->with(['messageTitle' => 'Updated successfully.', 'messageBody' => 'Category has been updated.']);
             }
 
 
-            return back()->withInput()->withErrors(['error' => 'Failed to update this category.']);
+            return back()->withInput()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to update category.']);
         } catch (\Exception $e) {
 
-            return back()->withInput()->withErrors(['error' => 'Failed to update this category.']);
+            return back()->withInput()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to update category.']);
         }
     }
 
@@ -115,12 +115,12 @@ class CategoryController extends Controller
             $response = Http::withToken($this->bearerToken)->delete("$this->baseUrl/{$id}");
 
             if ($response->successful()) {
-                return to_route('categories.index')->with('success', 'Category deleted successfully.');
+                return to_route('categories.index')->with(['messageTitle' => 'Deleted successfully.', 'messageBody' => 'Category has been deleted.']);
             }
 
-            return back()->withErrors(['error' => 'Failed to delete this category.']);
+            return back()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to delete category.']);
         } catch (\Exception $e) {
-            return back()->withErrors(['error' => 'Failed to delete this category.']);
+            return back()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to delete category.']);
         }
     }
 }
