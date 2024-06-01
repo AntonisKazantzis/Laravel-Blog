@@ -2,19 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use Inertia\Inertia;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
+    private $bearerToken;
+    private $baseUrl;
+
+    public function __construct()
+    {
+        $this->bearerToken = env('API_BEARER_TOKEN');
+        $this->baseUrl = "https://laraveltests.cactuscrm.gr/api/posts";
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $bearerToken = env('API_BEARER_TOKEN');
-        $response = Http::withToken($bearerToken)->get('https://laraveltests.cactuscrm.gr/api/posts/getAll');
+        $response = Http::withToken($this->bearerToken)->get($this->baseUrl.'/getAll');
 
         $posts = $response->json();
 
@@ -26,8 +36,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        $bearerToken = env('API_BEARER_TOKEN');
-        $response = Http::withToken($bearerToken)->get('https://laraveltests.cactuscrm.gr/api/posts/getAll');
+        $response = Http::withToken($this->bearerToken)->get($this->baseUrl.'/getAll');
 
         $posts = $response->json();
 
@@ -43,7 +52,7 @@ class PostController extends Controller
             $request->validate([
                 'title' => ['required', 'string', 'max:255'],
                 'body' => ['required', 'string', 'max:65535'],
-                'image' => ['nullable', 'mimes:jpg,png,jpeg,gif', 'max:10240'],
+                'image' => ['nullable', 'file', 'mimes:jpg,png,jpeg,gif', 'max:10240'],
                 'category' => ['required', 'integer', 'max:255'],
                 'subCategory' => ['required', 'integer', 'max:255'],
                 'tags' => ['nullable', 'array', 'max:255'],
@@ -53,19 +62,24 @@ class PostController extends Controller
                 return (int) $tag['id'];
             })->toArray();
 
-            $bearerToken = env('API_BEARER_TOKEN');
-            $response = Http::withToken($bearerToken)->post('https://laraveltests.cactuscrm.gr/api/posts', [
-                'title' => $request->input('title'),
-                'body' => $request->input('body'),
-                'image' => $request->input('image'),
-                'categoryId' => $request->input('category'),
-                'subCategoryId' => $request->input('subCategory'),
-                'tagsIds' => $tags,
-            ]);
+            $image = $request->file('image');
 
-            $response->json();
+            $response = Http::withToken($this->bearerToken)
+                ->attach('image', $image->getContent(), $image->getClientOriginalName())
+                ->asForm()
+                ->post($this->baseUrl, [
+                    'title' => $request->input('title'),
+                    'body' => $request->input('body'),
+                    'categoryId' => $request->input('category'),
+                    'subCategoryId' => $request->input('subCategory'),
+                    'tagsIds' => $tags,
+                ]);
 
-            return to_route('posts.index')->with('success', 'Post created successfully.');
+            if ($response->successful()) {
+                return to_route('posts.index')->with('success', 'Post created successfully.');
+            } else {
+                return back()->withErrors(['error' => 'Failed to create post.']);
+            }
         } catch (\Exception $e) {
             return back()->withInput()->withErrors(['error' => 'Failed to create post.']);
         }
@@ -76,9 +90,8 @@ class PostController extends Controller
      */
     public function edit(string $id)
     {
-        $bearerToken = env('API_BEARER_TOKEN');
-        $responsePost = Http::withToken($bearerToken)->get("https://laraveltests.cactuscrm.gr/api/posts/{$id}");
-        $responsePosts = Http::withToken($bearerToken)->get('https://laraveltests.cactuscrm.gr/api/posts/getAll');
+        $responsePost = Http::withToken($this->bearerToken)->get("$this->baseUrl/{$id}");
+        $responsePosts = Http::withToken($this->bearerToken)->get($this->baseUrl.'/getAll');
 
         $post = $responsePost->json();
         $posts = $responsePosts->json();
@@ -95,7 +108,7 @@ class PostController extends Controller
             $request->validate([
                 'title' => ['required', 'string', 'max:255'],
                 'body' => ['required', 'string', 'max:65535'],
-                'image' => ['nullable', 'mimes:jpg,png,jpeg,gif', 'max:10240'],
+                'image' => ['nullable', 'file', 'mimes:jpg,png,jpeg,gif', 'max:10240'],
                 'category' => ['required', 'integer', 'max:255'],
                 'subCategory' => ['required', 'integer', 'max:255'],
                 'tags' => ['nullable', 'array', 'max:255'],
@@ -105,19 +118,25 @@ class PostController extends Controller
                 return (int) $tag['id'];
             })->toArray();
 
-            $bearerToken = env('API_BEARER_TOKEN');
-            $response = Http::withToken($bearerToken)->patch("https://laraveltests.cactuscrm.gr/api/posts/{$id}", [
-                'title' => $request->input('title'),
-                'body' => $request->input('body'),
-                'image' => $request->input('image'),
-                'categoryId' => $request->input('category'),
-                'subCategoryId' => $request->input('subCategory'),
-                'tagsIds' => $tags,
-            ]);
 
-            $response->json();
+            $image = $request->file('image');
 
-            return to_route('posts.index')->with('success', 'Post updated successfully.');
+            $response = Http::withToken($this->bearerToken)
+                ->attach('image', $image->getContent(), $image->getClientOriginalName())
+                ->asForm()
+                ->patch("$this->baseUrl/{$id}", [
+                    'title' => $request->input('title'),
+                    'body' => $request->input('body'),
+                    'categoryId' => $request->input('category'),
+                    'subCategoryId' => $request->input('subCategory'),
+                    'tagsIds' => $tags,
+                ]);
+
+            if ($response->successful()) {
+                return to_route('posts.index')->with('success', 'Post updated successfully.');
+            } else {
+                return back()->withErrors(['error' => 'Failed to update post.']);
+            }
         } catch (\Exception $e) {
             return back()->withInput()->withErrors(['error' => 'Failed to update post.']);
         }
@@ -129,10 +148,13 @@ class PostController extends Controller
     public function destroy(string $id)
     {
         try {
-            $bearerToken = env('API_BEARER_TOKEN');
-            $response = Http::withToken($bearerToken)->delete("https://laraveltests.cactuscrm.gr/api/posts/{$id}");
+            $response = Http::withToken($this->bearerToken)->delete("$this->baseUrl/{$id}");
 
-            return to_route('posts.index')->with('success', 'Post deleted successfully.');
+            if ($response->successful()) {
+                return to_route('posts.index')->with('success', 'Post deleted successfully.');
+            } else {
+                return back()->withErrors(['error' => 'Failed to delete post.']);
+            }
         } catch (\Exception $e) {
             return back()->withInput()->withErrors(['error' => 'Failed to delete this post.']);
         }
