@@ -1,10 +1,12 @@
 <script setup>
-import { router, Link } from "@inertiajs/vue3";
+import { router, Link, usePage } from "@inertiajs/vue3";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import { IconDots } from "@tabler/icons-vue";
+
+const page = usePage()
 
 const props = defineProps({
     categories: Object,
@@ -15,14 +17,14 @@ const destroy = (categoryId) => {
         preserveScroll: true,
         onBefore: () => confirm('Are you sure you want to delete this category?'),
         onSuccess: () => new FilamentNotification()
-            .title('Deleted successfully')
+            .title(page.props.flash.messageTitle)
             .success()
-            .body('The category has been deleted.')
+            .body(page.props.flash.messageBody)
             .send(),
         onError: () => new FilamentNotification()
-            .title('Error :/.')
+            .title(page.props.errors.messageTitle)
             .danger()
-            .body('Failed to delete this category.')
+            .body(page.props.errors.messageBody)
             .send(),
     });
 };

@@ -1,10 +1,12 @@
 <script setup>
-import { router, Link } from "@inertiajs/vue3";
+import { router, Link, usePage } from "@inertiajs/vue3";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
-import { IconTags, IconCategory, IconX, IconPencil, IconDots } from "@tabler/icons-vue";
+import { IconTags, IconCategory, IconDots } from "@tabler/icons-vue";
+
+const page = usePage()
 
 const props = defineProps({
     posts: Object,
@@ -15,14 +17,14 @@ const destroy = (postId) => {
         preserveScroll: true,
         onBefore: () => confirm('Are you sure you want to delete this post?'),
         onSuccess: () => new FilamentNotification()
-            .title('Deleted successfully')
+            .title(page.props.flash.messageTitle)
             .success()
-            .body('The post has been deleted.')
+            .body(page.props.flash.messageBody)
             .send(),
         onError: () => new FilamentNotification()
-            .title('Error :/.')
+            .title(page.props.errors.messageTitle)
             .danger()
-            .body('Failed to delete this post.')
+            .body(page.props.errors.messageBody)
             .send(),
     });
 };

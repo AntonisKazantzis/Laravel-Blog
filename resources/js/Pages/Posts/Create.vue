@@ -1,5 +1,5 @@
 <script setup>
-import { useForm } from "@inertiajs/vue3";
+import { useForm, usePage  } from "@inertiajs/vue3";
 import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import AppLayout from "@/Layouts/AppLayout.vue";
@@ -9,6 +9,8 @@ import ActionMessage from "@/Components/ActionMessage.vue";
 import FormSection from "@/Components/FormSection.vue";
 import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
+
+const page = usePage()
 
 const props = defineProps({
     posts: Object,
@@ -26,15 +28,17 @@ const form = useForm({
 const submit = () => {
     form.post(route("posts.store"), {
         forceFormData: true,
+        preserveState: true,
+        preserveScroll: true,
         onSuccess: () => new FilamentNotification()
-            .title('Created successfully')
+            .title(page.props.flash.messageTitle)
             .success()
-            .body('The post has been created.')
+            .body(page.props.flash.messageBody)
             .send(),
         onError: () => new FilamentNotification()
-            .title('Error :/.')
+            .title(page.props.errors.messageTitle)
             .danger()
-            .body('Failed to create this post.')
+            .body(page.props.errors.messageBody)
             .send(),
     });
 };
@@ -95,9 +99,9 @@ props.posts.forEach(post => {
                                         clip-rule="evenodd" />
                                 </svg>
                                 <div class="mt-4 flex text-sm leading-6 text-white dark:text-black flex-col">
-                                    <label for="file-upload"
+                                    <label for="image"
                                         class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500">
-                                        <input id="file-upload" type="file" name="image"
+                                        <input id="image" type="file" name="image" autocomplete="image" required
                                             @input="form.image = $event.target.files[0]" />
                                     </label>
                                     <p class="pl-1">or drag and drop</p>
@@ -110,7 +114,6 @@ props.posts.forEach(post => {
                     </div>
                 </div>
 
-                <!-- Name -->
                 <div class="col-span-6">
                     <div class="mb-4">
                         <InputLabel for="title" value="Title" />
@@ -121,23 +124,20 @@ props.posts.forEach(post => {
                         <InputError :message="form.errors.title" class="mt-2" />
                     </div>
 
-                    <!-- Description -->
                     <div class="mb-4">
                         <InputLabel for="body" value="Body" />
 
-                        <MdEditor v-model="form.body" language="en-US" />
+                        <MdEditor class="border rounded-md border-white dark:border-black" v-model="form.body" language="en-US" />
 
                         <InputError :message="form.errors.body" class="mt-2" />
                     </div>
                 </div>
 
-                <!-- Select -->
                 <div class="flex gap-4 col-span-6">
-                    <!-- Category -->
                     <div class="w-1/2">
                         <InputLabel for="category" value="Category" />
 
-                        <select v-model="form.category"
+                        <select v-model="form.category" required
                             class="mt-4 sm:mt-0 border text-black capitalize border-white dark:border-black hover:dark:border-indigo-500 hover:border-indigo-500 rounded-md w-full md:w-64 lg:w-64 xl:w-64 2xl:w-64 sm:w-64 h-12 focus:outline-none focus:border-indigo-500">
                             <option value="" disabled selected hidden>
                                 Select Category
@@ -152,11 +152,10 @@ props.posts.forEach(post => {
                         <InputError :message="form.errors.category" class="mt-2" />
                     </div>
 
-                    <!-- Sub Category -->
                     <div class="w-1/2">
                         <InputLabel for="subCategory" value="Sub Category" />
 
-                        <select v-model="form.subCategory"
+                        <select v-model="form.subCategory" required
                             class="mt-4 sm:mt-0 border text-black capitalize border-white dark:border-black hover:dark:border-indigo-500 hover:border-indigo-500 rounded-md w-full md:w-64 lg:w-64 xl:w-64 2xl:w-64 sm:w-64 h-12 focus:outline-none focus:border-indigo-500">
                             <option value="" disabled selected hidden>
                                 Select Sub Category
@@ -171,7 +170,6 @@ props.posts.forEach(post => {
                         <InputError :message="form.errors.subCategory" class="mt-2" />
                     </div>
 
-                    <!-- Tags -->
                     <div class="w-1/2">
                         <InputLabel for="tags" value="Tags" />
 

@@ -1,5 +1,5 @@
 <script setup>
-import { useForm } from "@inertiajs/vue3";
+import { useForm, usePage } from "@inertiajs/vue3";
 import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import AppLayout from "@/Layouts/AppLayout.vue";
@@ -7,6 +7,8 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import ActionMessage from "@/Components/ActionMessage.vue";
 import FormSection from "@/Components/FormSection.vue";
+
+const page = usePage()
 
 const props = defineProps({
     category: Object,
@@ -22,14 +24,14 @@ const submit = () => {
         forceFormData: true,
         preserveScroll: true,
         onSuccess: () => new FilamentNotification()
-            .title('Updated successfully')
+            .title(page.props.flash.messageTitle)
             .success()
-            .body('The category has been updated.')
+            .body(page.props.flash.messageBody)
             .send(),
         onError: () => new FilamentNotification()
-            .title('Error :/.')
+            .title(page.props.errors.messageTitle)
             .danger()
-            .body('Failed to update this category.')
+            .body(page.props.errors.messageBody)
             .send(),
     });
 };
