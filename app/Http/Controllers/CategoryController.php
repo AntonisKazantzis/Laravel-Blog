@@ -9,12 +9,13 @@ use Inertia\Inertia;
 class CategoryController extends Controller
 {
     private $bearerToken;
+
     private $baseUrl;
 
     public function __construct()
     {
         $this->bearerToken = env('API_BEARER_TOKEN');
-        $this->baseUrl = "https://laraveltests.cactuscrm.gr/api/categories";
+        $this->baseUrl = 'https://laraveltests.cactuscrm.gr/api/categories';
     }
 
     /**

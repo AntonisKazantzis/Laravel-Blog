@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use Inertia\Inertia;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
+use Inertia\Inertia;
 
 class PostController extends Controller
 {
     private $bearerToken;
+
     private $baseUrl;
 
     public function __construct()
     {
         $this->bearerToken = env('API_BEARER_TOKEN');
-        $this->baseUrl = "https://laraveltests.cactuscrm.gr/api/posts";
+        $this->baseUrl = 'https://laraveltests.cactuscrm.gr/api/posts';
     }
 
     /**
@@ -117,7 +117,6 @@ class PostController extends Controller
             $tags = collect($request->input('tags'))->map(function ($tag) {
                 return (int) $tag['id'];
             })->toArray();
-
 
             $image = $request->file('image');
 
