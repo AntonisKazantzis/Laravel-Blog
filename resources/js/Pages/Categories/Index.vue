@@ -2,7 +2,9 @@
 import { router, Link } from "@inertiajs/vue3";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
-import { IconX, IconPencil } from "@tabler/icons-vue";
+import Dropdown from '@/Components/Dropdown.vue';
+import DropdownLink from '@/Components/DropdownLink.vue';
+import { IconDots } from "@tabler/icons-vue";
 
 const props = defineProps({
     categories: Object,
@@ -51,36 +53,50 @@ const edit = (categoryId) => {
             <div v-if="categories && categories.length > 0" class="pt-16 pb-8 border-t sm:block">
                 <div class="flex flex-wrap justify-center">
                     <div v-for="category in categories" :key="category.id"
-                        class="shadow-xl border-2 m-4 rounded flex flex-col md:w-[330px] md:h-[130px] mb-8 transition-transform transform hover:scale-105">
+                        class="shadow-xl border-2 m-4 rounded flex flex-col md:w-[330px] md:h-[110px] transition-transform transform hover:scale-105">
 
                         <div class="flex p-8">
-                            <div class="bg-[#343541] dark:bg-white w-full text-center">
-                                <div class="px-6">
-                                    <div
-                                        class="flex justify-center items-center pr-3 text-xl font-semibold text-white dark:text-black pb-10">
+                            <div class="bg-[#343541] dark:bg-white w-full">
+                                <div class="flex justify-between items-center">
+                                    <div class="text-xl font-semibold text-white dark:text-black">
                                         {{ category.name }}
                                     </div>
+
+                                    <div class="relative rounded-full hover:bg-indigo-500 focus:bg-indigo-900">
+                                        <Dropdown align="right" width="48">
+                                            <template #trigger>
+                                                <button
+                                                    class="flex text-sm rounded-full dark:text-black text-white focus:outline-none transition">
+                                                    <IconDots :size="40" />
+                                                </button>
+                                            </template>
+
+                                            <template #content>
+                                                <div class="block px-4 py-2 text-xs text-zinc-500 dark:text-zinc-500">
+                                                    Manage Category
+                                                </div>
+
+                                                <DropdownLink
+                                                    :href="route('categories.edit', { category: category.id })">
+                                                    Edit
+                                                </DropdownLink>
+
+                                                <div class="border-t border-white dark:border-gray-900" />
+
+                                                <form @submit.prevent="destroy(category.id)">
+                                                    <DropdownLink as="button">
+                                                        Delete
+                                                    </DropdownLink>
+                                                </form>
+                                            </template>
+                                        </Dropdown>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="flex-1 relative">
-                            <div class="absolute bottom-6 items-center flex justify-center w-full gap-4">
-                                <button type="button" @click.prevent="destroy(category.id)"
-                                    class="bg-zinc-300 text-black p-2 rounded-full">
-                                    <IconX :size="18" />
-                                </button>
-
-                                <button type="button" @click="edit(category.id)"
-                                    class="bg-zinc-300 text-black p-2 rounded-full">
-                                    <IconPencil :size="18" />
-                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
 
             <div v-else class="hidden sm:block">
                 <p class="flex mx-auto items-center justify-center min-h-screen">
