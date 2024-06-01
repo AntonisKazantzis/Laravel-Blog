@@ -76,12 +76,12 @@ class PostController extends Controller
                 ]);
 
             if ($response->successful()) {
-                return to_route('posts.index')->with('success', 'Post created successfully.');
+                return to_route('posts.index');
             }
 
-            return back()->withErrors(['error' => 'Failed to create this post.']);
+            return back();
         } catch (\Exception $e) {
-            return back()->withInput()->withErrors(['error' => 'Failed to create this post.']);
+            return back()->withInput();
         }
     }
 
@@ -132,12 +132,12 @@ class PostController extends Controller
                 ]);
 
             if ($response->successful()) {
-                return to_route('posts.index')->with('success', 'Post updated successfully.');
+                return to_route('posts.index');
             }
 
-            return back()->withErrors(['error' => 'Failed to update this post.']);
+            return back();
         } catch (\Exception $e) {
-            return back()->withInput()->withErrors(['error' => 'Failed to update this post.']);
+            return back()->withInput();
         }
     }
 
@@ -150,12 +150,12 @@ class PostController extends Controller
             $response = Http::withToken($this->bearerToken)->delete("$this->baseUrl/{$id}");
 
             if ($response->successful()) {
-                return to_route('posts.index')->with('success', 'Post deleted successfully.');
+                return to_route('posts.index');
             }
 
-            return back()->withErrors(['error' => 'Failed to delete this post.']);
+            return back();
         } catch (\Exception $e) {
-            return back()->withInput()->withErrors(['error' => 'Failed to delete this post.']);
+            return back()->withInput();
         }
     }
 }

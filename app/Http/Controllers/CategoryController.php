@@ -57,12 +57,12 @@ class CategoryController extends Controller
             ]);
 
             if ($response->successful()) {
-                return to_route('categories.index')->with('success', 'Category created successfully.');
+                return to_route('categories.index');
             }
 
-            return back()->withErrors(['error' => 'Failed to create this category.']);
+            return back();
         } catch (\Exception $e) {
-            return back()->withInput()->withErrors(['error' => 'Failed to create this category.']);
+            return back()->withInput();
         }
     }
 
@@ -93,12 +93,12 @@ class CategoryController extends Controller
             ]);
 
             if ($response->successful()) {
-                return to_route('categories.index')->with('success', 'Category updated successfully.');
+                return to_route('categories.index');
             }
 
-            return back()->withErrors(['error' => 'Failed to update this category.']);
+            return back();
         } catch (\Exception $e) {
-            return back()->withInput()->withErrors(['error' => 'Failed to update this category.']);
+            return back()->withInput();
         }
     }
 
@@ -111,12 +111,12 @@ class CategoryController extends Controller
             $response = Http::withToken($this->bearerToken)->delete("$this->baseUrl/{$id}");
 
             if ($response->successful()) {
-                return to_route('categories.index')->with('success', 'Category deleted successfully.');
+                return to_route('categories.index');
             }
 
-            return back()->withErrors(['error' => 'Failed to delete this category.']);
+            return back();
         } catch (\Exception $e) {
-            return back()->withInput()->withErrors(['error' => 'Failed to delete this category.']);
+            return back()->withInput();
         }
     }
 }
