@@ -60,7 +60,6 @@ class CategoryController extends Controller
                 return to_route('categories.index')->with(['messageTitle' => 'Created successfully.', 'messageBody' => 'Category has been created.']);
             }
 
-
             return back()->withInput()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to create category.']);
         } catch (\Exception $e) {
 
@@ -97,7 +96,6 @@ class CategoryController extends Controller
             if ($response->successful()) {
                 return to_route('categories.index')->with(['messageTitle' => 'Updated successfully.', 'messageBody' => 'Category has been updated.']);
             }
-
 
             return back()->withInput()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to update category.']);
         } catch (\Exception $e) {

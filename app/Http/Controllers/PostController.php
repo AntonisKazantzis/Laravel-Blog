@@ -23,7 +23,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $response = Http::withToken($this->bearerToken)->get($this->baseUrl . '/getAll');
+        $response = Http::withToken($this->bearerToken)->get($this->baseUrl.'/getAll');
 
         $posts = $response->json();
 
@@ -35,7 +35,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        $response = Http::withToken($this->bearerToken)->get($this->baseUrl . '/getAll');
+        $response = Http::withToken($this->bearerToken)->get($this->baseUrl.'/getAll');
 
         $posts = $response->json();
 
@@ -80,7 +80,7 @@ class PostController extends Controller
                 return to_route('posts.index')->with(['messageTitle' => 'Created successfully.', 'messageBody' => 'Post has been create.']);
             }
 
-            \Log::error('API Error: ' . $response->status() . ' - ' . $response->body());
+            \Log::error('API Error: '.$response->status().' - '.$response->body());
 
             return back()->withInput()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to create post.']);
         } catch (\Exception $e) {
@@ -96,7 +96,7 @@ class PostController extends Controller
     public function edit(string $id)
     {
         $responsePost = Http::withToken($this->bearerToken)->get("$this->baseUrl/{$id}");
-        $responsePosts = Http::withToken($this->bearerToken)->get($this->baseUrl . '/getAll');
+        $responsePosts = Http::withToken($this->bearerToken)->get($this->baseUrl.'/getAll');
 
         $post = $responsePost->json();
         $posts = $responsePosts->json();
@@ -142,7 +142,7 @@ class PostController extends Controller
                 return to_route('posts.index')->with(['messageTitle' => 'Updated successfully.', 'messageBody' => 'Post has been updated.']);
             }
 
-            \Log::error('API Error: ' . $response->status() . ' - ' . $response->body());
+            \Log::error('API Error: '.$response->status().' - '.$response->body());
 
             return back()->withInput()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to update post.']);
         } catch (\Exception $e) {
@@ -175,16 +175,18 @@ class PostController extends Controller
         $output = [];
 
         foreach ($data as $key => $value) {
-            if (!is_array($value)) {
+            if (! is_array($value)) {
                 $output[] = ['name' => $key, 'contents' => $value];
+
                 continue;
             }
 
             foreach ($value as $multiKey => $multiValue) {
-                $multiName = $key . '[' . $multiKey . ']' . (is_array($multiValue) ? '[' . key($multiValue) . ']' : '') . '';
+                $multiName = $key.'['.$multiKey.']'.(is_array($multiValue) ? '['.key($multiValue).']' : '').'';
                 $output[] = ['name' => $multiName, 'contents' => (is_array($multiValue) ? reset($multiValue) : $multiValue)];
             }
         }
+
         return $output;
     }
 }
