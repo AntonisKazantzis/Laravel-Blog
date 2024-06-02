@@ -77,11 +77,15 @@ class PostController extends Controller
                 ->post($this->baseUrl, $this->transformMultiFormData($params));
 
             if ($response->successful()) {
-                return to_route('posts.index')->with(['messageTitle' => 'Created successfully', 'messageBody' => 'Post has been created.']);
+                return to_route('posts.index')->with(['messageTitle' => 'Created successfully.', 'messageBody' => 'Post has been create.']);
             }
+
+            \Log::error('API Error: ' . $response->status() . ' - ' . $response->body());
 
             return back()->withInput()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to create post.']);
         } catch (\Exception $e) {
+            \Log::info($e->getMessage());
+
             return back()->withInput()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to create post.']);
         }
     }
@@ -132,14 +136,18 @@ class PostController extends Controller
             $response = Http::withToken($this->bearerToken)
                 ->attach('image', file_get_contents($image->getPathname()), $image->getClientOriginalName())
                 ->asMultipart()
-                ->post($this->baseUrl, $this->transformMultiFormData($params));
+                ->post("$this->baseUrl/{$id}?_method=PATCH", $this->transformMultiFormData($params));
 
             if ($response->successful()) {
                 return to_route('posts.index')->with(['messageTitle' => 'Updated successfully.', 'messageBody' => 'Post has been updated.']);
             }
 
+            \Log::error('API Error: ' . $response->status() . ' - ' . $response->body());
+
             return back()->withInput()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to update post.']);
         } catch (\Exception $e) {
+            \Log::info($e->getMessage());
+
             return back()->withInput()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to update post.']);
         }
     }
@@ -162,17 +170,18 @@ class PostController extends Controller
         }
     }
 
-    private function transformMultiFormData ($data) {
+    private function transformMultiFormData($data)
+    {
         $output = [];
 
-        foreach($data as $key => $value){
-            if(!is_array($value)){
+        foreach ($data as $key => $value) {
+            if (!is_array($value)) {
                 $output[] = ['name' => $key, 'contents' => $value];
                 continue;
             }
 
-            foreach($value as $multiKey => $multiValue){
-                $multiName = $key . '[' .$multiKey . ']' . (is_array($multiValue) ? '[' . key($multiValue) . ']' : '' ) . '';
+            foreach ($value as $multiKey => $multiValue) {
+                $multiName = $key . '[' . $multiKey . ']' . (is_array($multiValue) ? '[' . key($multiValue) . ']' : '') . '';
                 $output[] = ['name' => $multiName, 'contents' => (is_array($multiValue) ? reset($multiValue) : $multiValue)];
             }
         }
