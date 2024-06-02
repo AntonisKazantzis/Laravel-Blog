@@ -4,8 +4,13 @@
 Laravel Blog is a web application built with Vue.js, Filament, Livewire and PHP Laravel, providing a modern and responsive interface for exploring Posts data sourced from the [CactusApi](https://laraveltests.cactuscrm.gr/api). Key features include:
 
 - Blog Page.
-- CRUD categories.
-- CRUD posts.
+- CRUD Categories.
+- CRUD Posts.
+- Fully Responsive.
+- Modern design.
+- Theme Switcher.
+- Custom Error Page.
+- Notifications.
 - Admin Panel.
 - Charts.
 
