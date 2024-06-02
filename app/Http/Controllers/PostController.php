@@ -23,7 +23,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $response = Http::withToken($this->bearerToken)->get($this->baseUrl.'/getAll');
+        $response = Http::withToken($this->bearerToken)->get($this->baseUrl . '/getAll');
 
         $posts = $response->json();
 
@@ -35,7 +35,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        $response = Http::withToken($this->bearerToken)->get($this->baseUrl.'/getAll');
+        $response = Http::withToken($this->bearerToken)->get($this->baseUrl . '/getAll');
 
         $posts = $response->json();
 
@@ -63,24 +63,26 @@ class PostController extends Controller
 
             $image = $request->file('image');
 
+            $params = [
+                'title' => $request->input('title'),
+                'body' => $request->input('body'),
+                'categoryId' => $request->input('category'),
+                'subCategoryId' => $request->input('subCategory'),
+                'tagsIds' => $tags,
+            ];
+
             $response = Http::withToken($this->bearerToken)
-                ->attach('image', $image->getContent(), $image->getClientOriginalName())
-                ->asForm()
-                ->post($this->baseUrl, [
-                    'title' => $request->input('title'),
-                    'body' => $request->input('body'),
-                    'categoryId' => $request->input('category'),
-                    'subCategoryId' => $request->input('subCategory'),
-                    'tagsIds' => $tags,
-                ]);
+                ->attach('image', file_get_contents($image->getPathname()), $image->getClientOriginalName())
+                ->asMultipart()
+                ->post($this->baseUrl, $this->transformMultiFormData($params));
 
             if ($response->successful()) {
                 return to_route('posts.index')->with(['messageTitle' => 'Created successfully', 'messageBody' => 'Post has been created.']);
             }
 
-            return back()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to create post.']);
+            return back()->withInput()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to create post.']);
         } catch (\Exception $e) {
-            return back()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to create post.']);
+            return back()->withInput()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to create post.']);
         }
     }
 
@@ -90,7 +92,7 @@ class PostController extends Controller
     public function edit(string $id)
     {
         $responsePost = Http::withToken($this->bearerToken)->get("$this->baseUrl/{$id}");
-        $responsePosts = Http::withToken($this->bearerToken)->get($this->baseUrl.'/getAll');
+        $responsePosts = Http::withToken($this->bearerToken)->get($this->baseUrl . '/getAll');
 
         $post = $responsePost->json();
         $posts = $responsePosts->json();
@@ -119,24 +121,26 @@ class PostController extends Controller
 
             $image = $request->file('image');
 
+            $params = [
+                'title' => $request->input('title'),
+                'body' => $request->input('body'),
+                'categoryId' => $request->input('category'),
+                'subCategoryId' => $request->input('subCategory'),
+                'tagsIds' => $tags,
+            ];
+
             $response = Http::withToken($this->bearerToken)
-                ->attach('image', $image->getContent(), $image->getClientOriginalName())
-                ->asForm()
-                ->patch("$this->baseUrl/{$id}", [
-                    'title' => $request->input('title'),
-                    'body' => $request->input('body'),
-                    'categoryId' => $request->input('category'),
-                    'subCategoryId' => $request->input('subCategory'),
-                    'tagsIds' => $tags,
-                ]);
+                ->attach('image', file_get_contents($image->getPathname()), $image->getClientOriginalName())
+                ->asMultipart()
+                ->post($this->baseUrl, $this->transformMultiFormData($params));
 
             if ($response->successful()) {
                 return to_route('posts.index')->with(['messageTitle' => 'Updated successfully.', 'messageBody' => 'Post has been updated.']);
             }
 
-            return back()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to update post.']);
+            return back()->withInput()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to update post.']);
         } catch (\Exception $e) {
-            return back()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to update post.']);
+            return back()->withInput()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to update post.']);
         }
     }
 
@@ -156,5 +160,22 @@ class PostController extends Controller
         } catch (\Exception $e) {
             return back()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to delete post.']);
         }
+    }
+
+    private function transformMultiFormData ($data) {
+        $output = [];
+
+        foreach($data as $key => $value){
+            if(!is_array($value)){
+                $output[] = ['name' => $key, 'contents' => $value];
+                continue;
+            }
+
+            foreach($value as $multiKey => $multiValue){
+                $multiName = $key . '[' .$multiKey . ']' . (is_array($multiValue) ? '[' . key($multiValue) . ']' : '' ) . '';
+                $output[] = ['name' => $multiName, 'contents' => (is_array($multiValue) ? reset($multiValue) : $multiValue)];
+            }
+        }
+        return $output;
     }
 }
