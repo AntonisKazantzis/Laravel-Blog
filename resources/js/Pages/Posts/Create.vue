@@ -1,9 +1,11 @@
 <script setup>
-import { useForm, usePage  } from "@inertiajs/vue3";
+import { ref } from "vue";
+import { useForm, usePage } from "@inertiajs/vue3";
 import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
+import SecondaryButton from "@/Components/SecondaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import ActionMessage from "@/Components/ActionMessage.vue";
 import FormSection from "@/Components/FormSection.vue";
@@ -16,6 +18,9 @@ const props = defineProps({
     posts: Object,
 });
 
+const imagePreview = ref(null);
+const imageInput = ref(null);
+
 const form = useForm({
     title: '',
     body: '',
@@ -26,15 +31,22 @@ const form = useForm({
 });
 
 const submit = () => {
+    if (imageInput.value) {
+        form.image = imageInput.value.files[0];
+    }
+
     form.post(route("posts.store"), {
         forceFormData: true,
         preserveState: true,
         preserveScroll: true,
-        onSuccess: () => new FilamentNotification()
-            .title(page.props.flash.messageTitle)
-            .success()
-            .body(page.props.flash.messageBody)
-            .send(),
+        onSuccess: () => {
+            clearImageFileInput();
+            new FilamentNotification()
+                .title(page.props.flash.messageTitle)
+                .success()
+                .body(page.props.flash.messageBody)
+                .send();
+        },
         onError: () => new FilamentNotification()
             .title(page.props.errors.messageTitle)
             .danger()
@@ -68,6 +80,35 @@ props.posts.forEach(post => {
         });
     }
 });
+
+const deleteImage = () => {
+    imagePreview.value = null;
+    clearImageFileInput();
+};
+
+const selectNewImage = () => {
+    imageInput.value.click();
+};
+
+const updateImagePreview = () => {
+    const image = imageInput.value.files[0];
+
+    if (!image) return;
+
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+        imagePreview.value = e.target.result;
+    };
+
+    reader.readAsDataURL(image);
+};
+
+const clearImageFileInput = () => {
+    if (imageInput.value?.value) {
+        imageInput.value.value = null;
+    }
+};
 </script>
 
 <template>
@@ -86,32 +127,29 @@ props.posts.forEach(post => {
             </template>
 
             <template #form>
-                <div class="col-span-6 flex gap-4">
-                    <div class="col-span-6 min-w-[300px] w-full">
-                        <InputLabel for="image" value="Image" />
-                        <div
-                            class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900 px-6 py-10">
-                            <div class="text-center">
-                                <svg class="mx-auto h-12 w-12 text-white dark:text-black" viewBox="0 0 24 24"
-                                    fill="currentColor" aria-hidden="true">
-                                    <path fill-rule="evenodd"
-                                        d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                                <div class="mt-4 flex text-sm leading-6 text-white dark:text-black flex-col">
-                                    <label for="image"
-                                        class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500">
-                                        <input id="image" type="file" name="image" autocomplete="image" required
-                                            @input="form.image = $event.target.files[0]" />
-                                    </label>
-                                    <p class="pl-1">or drag and drop</p>
-                                </div>
-                                <p class="text-xs leading-5 text-white dark:text-black">PNG, JPG, JPEG, GIF up to 10MB
-                                </p>
-                            </div>
-                        </div>
-                        <InputError :message="form.errors.image" class="mt-2" />
+                <div class="col-span-6 sm:col-span-4">
+                    <input id="image" ref="imageInput" type="file" class="hidden" @change="updateImagePreview" />
+
+                    <InputLabel for="image" value="Image" />
+
+                    <div v-show="imagePreview" class="mt-2">
+                        <span
+                            class="block rounded-md w-[182px] h-[182px] bg-cover bg-no-repeat bg-center border hover:border-indigo-500 hover:dark:border-indigo-500 border-black dark:border-black"
+                            :style="'background-image: url(\'' +
+                                imagePreview +
+                                '\');'
+                                " />
                     </div>
+
+                    <SecondaryButton class="mt-2 me-2" type="button" @click.prevent="selectNewImage">
+                        Select A New Image
+                    </SecondaryButton>
+
+                    <SecondaryButton v-if="imagePreview" type="button" class="mt-2" @click.prevent="deleteImage">
+                        Remove Image
+                    </SecondaryButton>
+
+                    <InputError :message="form.errors.image" class="mt-2" />
                 </div>
 
                 <div class="col-span-6">
@@ -127,7 +165,8 @@ props.posts.forEach(post => {
                     <div class="mb-4">
                         <InputLabel for="body" value="Body" />
 
-                        <MdEditor class="border rounded-md border-white dark:border-black" v-model="form.body" language="en-US" />
+                        <MdEditor class="border rounded-md border-white dark:border-black" v-model="form.body"
+                            language="en-US" />
 
                         <InputError :message="form.errors.body" class="mt-2" />
                     </div>
