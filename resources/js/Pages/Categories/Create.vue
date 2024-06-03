@@ -49,11 +49,10 @@ const submit = () => {
             <template #title> Category Information </template>
 
             <template #description>
-                Create your account's category information.
+                Create your category.
             </template>
 
             <template #form>
-                <!-- Name -->
                 <div class="col-span-6">
                     <div class="mb-4">
                         <InputLabel for="name" value="Name" />
