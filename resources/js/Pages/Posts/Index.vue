@@ -2,6 +2,7 @@
 import { router, Link, usePage } from "@inertiajs/vue3";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
+import Pagination from "@/Components/Pagination.vue";
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import { IconTags, IconCategory, IconDots } from "@tabler/icons-vue";
@@ -15,6 +16,7 @@ const props = defineProps({
 const destroy = (postId) => {
     router.delete(route("posts.destroy", { post: postId }), {
         preserveScroll: true,
+        preserveState: true,
         onBefore: () => confirm('Are you sure you want to delete this post?'),
         onSuccess: () => new FilamentNotification()
             .title(page.props.flash.messageTitle)
@@ -27,10 +29,6 @@ const destroy = (postId) => {
             .body(page.props.errors.messageBody)
             .send(),
     });
-};
-
-const edit = (postId) => {
-    router.get(route("posts.edit", { post: postId }));
 };
 </script>
 
@@ -52,23 +50,23 @@ const edit = (postId) => {
                 </div>
             </template>
 
-            <div v-if="posts && posts.length > 0" class="pt-16 pb-8 border-t sm:block">
-                <div v-for="post in posts" :key="post.id"
+            <div v-if="posts.data" class="pt-16 pb-8 border-t sm:block">
+                <div v-for="post in posts.data" :key="post.id"
                     class="shadow-xl border-2 m-auto rounded flex flex-col md:flex-row w-full max-w-md md:max-w-3xl mb-8 transition-transform transform hover:scale-105">
 
                     <div class="flex-1 p-4 md:p-12 overflow-hidden">
                         <div class="bg-[#343541] dark:bg-white">
                             <div class="px-4 md:px-6">
-                                <div v-if="post.title"
+                                <div
                                     class="flex items-center text-xl font-semibold text-white dark:text-black pb-4 md:pb-10">
                                     {{ post.title }}
                                 </div>
 
-                                <div class="flex items-center w-full h-full pb-4">
+                                <div v-if="post.image" class="flex items-center w-full h-full pb-4">
                                     <img class="rounded max-h-[280px]" :src="post.image" alt="" />
                                 </div>
 
-                                <div v-if="post.body">
+                                <div>
                                     <span v-html="post.body"
                                         class="block text-white dark:text-black break-words md:hidden"></span>
                                 </div>
@@ -76,29 +74,28 @@ const edit = (postId) => {
 
                             <div class="px-4 md:px-6 pt-4 md:pt-10">
                                 <div class="space-y-4">
-                                    <div v-if="post.category">
+                                    <div>
                                         <span
-                                            class="flex items-center pr-3 text-sm font-semibold text-white dark:text-black">
+                                            class="flex items-center text-sm font-semibold text-white dark:text-black">
                                             <IconCategory class="mr-1" :size="18" />
                                             {{ post.category.name }}
                                         </span>
                                     </div>
 
-                                    <div v-if="post.subCategory">
+                                    <div>
                                         <span
-                                            class="flex items-center pr-3 text-sm font-semibold text-white dark:text-black">
+                                            class="flex items-center text-sm font-semibold text-white dark:text-black">
                                             <IconCategory class="mr-1" :size="18" />
                                             {{ post.subCategory.name }}
                                         </span>
                                     </div>
 
                                     <div v-if="post.tags && post.tags.length > 0">
-                                        <span
-                                            class="flex items-center pr-3 text-sm font-semibold text-white dark:text-black">
-                                            <IconTags class="mr-1" :size="18" />
+                                        <span class="items-center text-sm font-semibold text-white dark:text-black">
+                                            <IconTags class="inline-block mr-1" :size="18" />
                                             <template v-for="tag in post.tags" :key="tag.id">
                                                 <div
-                                                    class="inline-block bg-zinc-300 text-black dark:text-black rounded-full px-2 py-1 mr-1">
+                                                    class="inline-block mb-2 bg-zinc-300 text-black dark:text-black rounded-full px-2 py-1 mr-1">
                                                     {{ tag.name }}
                                                 </div>
                                             </template>
@@ -147,6 +144,8 @@ const edit = (postId) => {
                         </div>
                     </div>
                 </div>
+
+                <Pagination :elements="posts" />
             </div>
 
             <div v-else class="hidden sm:block">
@@ -174,23 +173,23 @@ const edit = (postId) => {
                 </div>
             </template>
 
-            <div v-if="posts && posts.length > 0" class="pt-16 pb-8 border-t sm:block">
-                <div v-for="post in posts" :key="post.id"
+            <div v-if="posts.data" class="pt-16 pb-8 border-t sm:block">
+                <div v-for="post in posts.data" :key="post.id"
                     class="shadow-xl border-2 m-auto rounded flex flex-col md:flex-row w-full max-w-md md:max-w-3xl mb-8 transition-transform transform hover:scale-105">
 
                     <div class="flex-1 p-4 md:p-12 overflow-hidden">
                         <div class="bg-[#343541] dark:bg-white">
                             <div class="px-4 md:px-6">
-                                <div v-if="post.title"
+                                <div
                                     class="flex items-center text-xl font-semibold text-white dark:text-black pb-4 md:pb-10">
                                     {{ post.title }}
                                 </div>
 
-                                <div class="flex items-center w-full h-full pb-4">
+                                <div v-if="post.image" class="flex items-center w-full h-full pb-4">
                                     <img class="rounded max-h-[280px]" :src="post.image" alt="" />
                                 </div>
 
-                                <div v-if="post.body">
+                                <div>
                                     <span v-html="post.body"
                                         class="block text-white dark:text-black break-words md:hidden"></span>
                                 </div>
@@ -198,29 +197,28 @@ const edit = (postId) => {
 
                             <div class="px-4 md:px-6 pt-4 md:pt-10">
                                 <div class="space-y-4">
-                                    <div v-if="post.category">
+                                    <div>
                                         <span
-                                            class="flex items-center pr-3 text-sm font-semibold text-white dark:text-black">
+                                            class="flex items-center text-sm font-semibold text-white dark:text-black">
                                             <IconCategory class="mr-1" :size="18" />
                                             {{ post.category.name }}
                                         </span>
                                     </div>
 
-                                    <div v-if="post.subCategory">
+                                    <div>
                                         <span
-                                            class="flex items-center pr-3 text-sm font-semibold text-white dark:text-black">
+                                            class="flex items-center text-sm font-semibold text-white dark:text-black">
                                             <IconCategory class="mr-1" :size="18" />
                                             {{ post.subCategory.name }}
                                         </span>
                                     </div>
 
                                     <div v-if="post.tags && post.tags.length > 0">
-                                        <span
-                                            class="flex items-center pr-3 text-sm font-semibold text-white dark:text-black">
-                                            <IconTags class="mr-1" :size="18" />
+                                        <span class="items-center text-sm font-semibold text-white dark:text-black">
+                                            <IconTags class="inline-block mr-1" :size="18" />
                                             <template v-for="tag in post.tags" :key="tag.id">
                                                 <div
-                                                    class="inline-block bg-zinc-300 text-black dark:text-black rounded-full px-2 py-1 mr-1">
+                                                    class="inline-block mb-2 bg-zinc-300 text-black dark:text-black rounded-full px-2 py-1 mr-1">
                                                     {{ tag.name }}
                                                 </div>
                                             </template>
@@ -238,6 +236,8 @@ const edit = (postId) => {
                         </div>
                     </div>
                 </div>
+
+                <Pagination :elements="posts" />
             </div>
 
             <div v-else class="hidden sm:block">
