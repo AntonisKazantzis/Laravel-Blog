@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, computed, watch } from "vue";
 import { useForm, usePage } from "@inertiajs/vue3";
 import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
@@ -9,6 +9,7 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import ActionMessage from "@/Components/ActionMessage.vue";
 import FormSection from "@/Components/FormSection.vue";
+import Multiselect from '@vueform/multiselect'
 import { MdEditor } from "md-editor-v3";
 import "md-editor-v3/lib/style.css";
 
@@ -17,33 +18,6 @@ const page = usePage();
 const props = defineProps({
     post: Object,
     posts: Object,
-});
-
-const imagePreview = ref(null);
-const imageInput = ref(null);
-
-let categories = {};
-let subCategories = {};
-let tags = {};
-
-props.posts.forEach((post) => {
-    if (post.category && !categories.hasOwnProperty(post.category.id)) {
-        categories[post.category.id] = post.category.name;
-    }
-    if (
-        post.subCategory &&
-        !subCategories.hasOwnProperty(post.subCategory.id)
-    ) {
-        subCategories[post.subCategory.id] = post.subCategory.name;
-    }
-    if (post.tags) {
-        post.tags.forEach((tag) => {
-            const tagId = parseInt(tag.id);
-            if (!tags.hasOwnProperty(tagId)) {
-                tags[tagId] = tag.name;
-            }
-        });
-    }
 });
 
 const form = useForm({
@@ -56,8 +30,41 @@ const form = useForm({
     tags: props.post.tags,
 });
 
+const imagePreview = ref(null);
+const imageInput = ref(null);
+
+const tagIds = form.tags.map(tag => tag.id);
+const tagsInput = ref(tagIds);
+
+const categoriesMap = ref({});
+const subCategoriesMap = ref({});
+const tagsMap = ref({});
+
+props.posts.forEach(post => {
+    if (post.category && !categoriesMap.value[post.category.id]) {
+        categoriesMap.value[post.category.id] = post.category.name;
+        subCategoriesMap.value[post.category.id] = {};
+    }
+    if (post.subCategory) {
+        if (!subCategoriesMap.value[post.category.id][post.subCategory.id]) {
+            subCategoriesMap.value[post.category.id][post.subCategory.id] = post.subCategory.name;
+        }
+    }
+    if (post.tags) {
+        post.tags.forEach(tag => {
+            if (!tagsMap.value[tag.id]) {
+                tagsMap.value[tag.id] = tag.name;
+            }
+        });
+    }
+});
+
 const submit = () => {
-    if (imageInput.value) {
+    if (tagsInput.value) {
+        form.tags = tagsInput.value.map(tagId => parseInt(tagId));
+    }
+
+    if (imageInput.value.files[0]) {
         form.image = imageInput.value.files[0];
     }
 
@@ -84,6 +91,7 @@ const submit = () => {
 
 const deleteImage = () => {
     imagePreview.value = null;
+    form.image = null;
     clearImageFileInput();
 };
 
@@ -110,6 +118,23 @@ const clearImageFileInput = () => {
         imageInput.value.value = null;
     }
 };
+
+const categories = computed(() => {
+    return Object.entries(categoriesMap.value).map(([id, name]) => ({ value: id, label: name }));
+});
+
+const subCategories = computed(() => {
+    if (!form.category) return [];
+    return Object.entries(subCategoriesMap.value[form.category] || {}).map(([id, name]) => ({ value: id, label: name }));
+});
+
+const tags = computed(() => {
+    return Object.entries(tagsMap.value).map(([id, name]) => ({ value: id, label: name }));
+});
+
+watch(() => form.category, () => {
+    form.subCategory = null;
+});
 </script>
 
 <template>
@@ -125,7 +150,7 @@ const clearImageFileInput = () => {
         <FormSection @submitted="submit" class="w-full mx-auto py-10 sm:px-6 lg:px-8">
             <template #title> Post Information </template>
 
-            <template #description> Edit post information. </template>
+            <template #description> Edit post. </template>
 
             <template #form>
                 <div class="col-span-6 sm:col-span-4">
@@ -133,7 +158,7 @@ const clearImageFileInput = () => {
 
                     <InputLabel for="image" value="Image" />
 
-                    <div v-show="!imagePreview" class="mt-2">
+                    <div v-show="!imagePreview && form.image" class="mt-2">
                         <img :src="form.image"
                             class="rounded-md h-[182px] w-[182px] object-cover border hover:border-indigo-500 hover:dark:border-indigo-500 border-black dark:border-black" />
                     </div>
@@ -147,11 +172,14 @@ const clearImageFileInput = () => {
                                 " />
                     </div>
 
-                    <SecondaryButton class="mt-2 me-2" type="button" @click.prevent="selectNewImage">
+                    <SecondaryButton class="mt-2 me-2 w-48 max-w-[182px] max-h-[182px] items-center justify-center"
+                        type="button" @click.prevent="selectNewImage">
                         Select A New Image
                     </SecondaryButton>
 
-                    <SecondaryButton v-if="imagePreview" type="button" class="mt-2" @click.prevent="deleteImage">
+                    <SecondaryButton v-if="imagePreview"
+                        class="mt-2 w-48 max-w-[182px] max-h-[182px] items-center justify-center" type="button"
+                        @click.prevent="deleteImage">
                         Remove Image
                     </SecondaryButton>
 
@@ -181,17 +209,9 @@ const clearImageFileInput = () => {
                     <div class="w-1/2">
                         <InputLabel for="category" value="Category" />
 
-                        <select v-model="form.category"
-                            class="mt-4 sm:mt-0 border text-black capitalize border-white dark:border-black hover:dark:border-indigo-500 hover:border-indigo-500 rounded-md w-full md:w-64 lg:w-64 xl:w-64 2xl:w-64 sm:w-64 h-12 focus:outline-none focus:border-indigo-500">
-                            <option value="" disabled selected hidden>
-                                Select Category
-                            </option>
-                            <template v-for="(categoryName, categoryId) in categories" :key="categoryId">
-                                <option :value="categoryId">
-                                    {{ categoryName }}
-                                </option>
-                            </template>
-                        </select>
+                        <Multiselect required mode="single" :hide-selected="false" no-options-text="No categories"
+                            placeholder="Select Category" v-model="form.category" :options="categories"
+                            class="mt-4 sm:mt-0 border text-black capitalize border-white dark:border-black hover:dark:border-indigo-500 hover:border-indigo-500 rounded-md w-full md:w-64 lg:w-64 xl:w-64 2xl:w-64 sm:w-64 h-12 focus:outline-none focus:border-indigo-500" />
 
                         <InputError :message="form.errors.category" class="mt-2" />
                     </div>
@@ -199,19 +219,9 @@ const clearImageFileInput = () => {
                     <div class="w-1/2">
                         <InputLabel for="subCategory" value="Sub Category" />
 
-                        <select v-model="form.subCategory"
-                            class="mt-4 sm:mt-0 border text-black capitalize border-white dark:border-black hover:dark:border-indigo-500 hover:border-indigo-500 rounded-md w-full md:w-64 lg:w-64 xl:w-64 2xl:w-64 sm:w-64 h-12 focus:outline-none focus:border-indigo-500">
-                            <option value="" disabled selected hidden>
-                                Select Sub Category
-                            </option>
-                            <template v-for="(
-                                    subCategoryName, subCategoryId
-                                ) in subCategories" :key="subCategoryId">
-                                <option :value="subCategoryId">
-                                    {{ subCategoryName }}
-                                </option>
-                            </template>
-                        </select>
+                        <Multiselect required mode="single" :hide-selected="false" no-options-text="No sub categories"
+                            placeholder="Select Sub Category" v-model="form.subCategory" :options="subCategories"
+                            class="mt-4 sm:mt-0 border text-black capitalize border-white dark:border-black hover:dark:border-indigo-500 hover:border-indigo-500 rounded-md w-full md:w-64 lg:w-64 xl:w-64 2xl:w-64 sm:w-64 h-12 focus:outline-none focus:border-indigo-500" />
 
                         <InputError :message="form.errors.subCategory" class="mt-2" />
                     </div>
@@ -219,17 +229,9 @@ const clearImageFileInput = () => {
                     <div class="w-1/2">
                         <InputLabel for="tags" value="Tags" />
 
-                        <select v-model="form.tags" multiple
-                            class="mt-4 sm:mt-0 border text-black capitalize border-white dark:border-black hover:dark:border-indigo-500 hover:border-indigo-500 rounded-md w-full md:w-82 lg:w-82 xl:w-82 2xl:w-82 sm:w-82 h-32 focus:outline-none focus:border-indigo-500">
-                            <option value="" disabled selected hidden>
-                                Select Tags
-                            </option>
-                            <template v-for="(tagName, tagId) in tags" :key="tagId">
-                                <option :value="{ id: tagId, name: tagName }">
-                                    {{ tagName }}
-                                </option>
-                            </template>
-                        </select>
+                        <Multiselect mode="multiple" :close-on-select="false" :hide-selected="false"
+                            no-options-text="No tags" placeholder="Select Tags" v-model="tagsInput" :options="tags"
+                            class="mt-4 sm:mt-0 border text-black capitalize border-white dark:border-black hover:dark:border-indigo-500 hover:border-indigo-500 rounded-md w-full md:w-64 lg:w-64 xl:w-64 2xl:w-64 sm:w-64 h-12 focus:outline-none focus:border-indigo-500" />
 
                         <InputError :message="form.errors.tags" class="mt-2" />
                     </div>
@@ -248,3 +250,5 @@ const clearImageFileInput = () => {
         </FormSection>
     </AppLayout>
 </template>
+
+<style src="@vueform/multiselect/themes/default.css"></style>
