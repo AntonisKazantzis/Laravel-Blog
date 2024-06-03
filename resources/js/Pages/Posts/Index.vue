@@ -112,7 +112,7 @@ const destroy = (postId) => {
                                 class="block text-white dark:text-black break-words"></span>
                         </div>
 
-                        <div class="fixed top-2 right-2 flex rounded-full hover:bg-indigo-500 focus:bg-indigo-900">
+                        <div class="fixed top-2 right-2 flex rounded-full hover:bg-indigo-500 dark:hover:bg-indigo-500 focus:bg-indigo-900 dark:focus:bg-indigo-900">
                             <div class="relative flex items-center">
                                 <Dropdown align="right" width="48">
                                     <template #trigger>

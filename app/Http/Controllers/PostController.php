@@ -53,11 +53,15 @@ class PostController extends Controller
      */
     public function create()
     {
-        $response = Http::withToken($this->bearerToken)->get("$this->baseUrl/posts/getAll");
+        $responsePosts = Http::withToken($this->bearerToken)->get("$this->baseUrl/posts/getAll");
+        $responseCategories = Http::withToken($this->bearerToken)->get("$this->baseUrl/categories/getAll");
+        $responseTags = Http::withToken($this->bearerToken)->get("$this->baseUrl/tags/getAll");
 
-        $posts = $response->json();
+        $posts = $responsePosts->json();
+        $categories = $responseCategories->json();
+        $tags = $responseTags->json();
 
-        return Inertia::render('Posts/Create', compact('posts'));
+        return Inertia::render('Posts/Create', compact('posts', 'categories', 'tags'));
     }
 
     /**
@@ -65,51 +69,47 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $image = $request->file('image');
+        $image = $request->file('image');
 
-            $rules = [
-                'title' => ['required', 'string', 'max:255'],
-                'body' => ['required', 'string', 'max:65535'],
-                'category' => ['required', 'integer', 'max:255'],
-                'subCategory' => ['required', 'integer', 'max:255'],
-                'tags' => ['nullable', 'array', 'max:255'],
-            ];
+        $rules = [
+            'title' => ['required', 'string', 'max:255'],
+            'body' => ['required', 'string', 'max:65535'],
+            'category' => ['required', 'integer', 'max:255'],
+            'subCategory' => ['required', 'integer', 'max:255'],
+            'tags' => ['nullable', 'array', 'max:255'],
+        ];
 
-            if ($image) {
-                $rules['image'] = ['nullable', 'file', 'mimes:jpg,png,jpeg,gif', 'max:10240'];
-            }
-
-            $request->validate($rules);
-
-            $tags = array_map('intval', (array) $request->input('tags'));
-
-            $params = [
-                'title' => $request->input('title'),
-                'body' => $request->input('body'),
-                'categoryId' => $request->input('category'),
-                'subCategoryId' => $request->input('subCategory'),
-                'tagsIds' => $tags,
-            ];
-
-            $response = Http::withToken($this->bearerToken);
-
-            if ($image) {
-                $response = $response->attach('image', file_get_contents($image->getPathname()), $image->getClientOriginalName())
-                    ->asMultipart()
-                    ->post("$this->baseUrl/posts", $this->transformMultiFormData($params));
-            } else {
-                $response = $response->post("$this->baseUrl/posts", $params);
-            }
-
-            if ($response->successful()) {
-                return to_route('posts.index')->with(['messageTitle' => 'Created successfully.', 'messageBody' => 'Post has been create.']);
-            }
-
-            return back()->withInput()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to create post.']);
-        } catch (\Exception $e) {
-            return back()->withInput()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to create post.']);
+        if ($image) {
+            $rules['image'] = ['nullable', 'file', 'mimes:jpg,png,jpeg,gif', 'max:10240'];
         }
+
+        $request->validate($rules);
+
+        $tags = array_map('intval', (array) $request->input('tags'));
+
+        $params = [
+            'title' => $request->input('title'),
+            'body' => $request->input('body'),
+            'categoryId' => $request->input('category'),
+            'subCategoryId' => $request->input('subCategory'),
+            'tagsIds' => $tags,
+        ];
+
+        $response = Http::withToken($this->bearerToken);
+
+        if ($image) {
+            $response = $response->attach('image', file_get_contents($image->getPathname()), $image->getClientOriginalName())
+                ->asMultipart()
+                ->post("$this->baseUrl/posts", $this->transformMultiFormData($params));
+        } else {
+            $response = $response->post("$this->baseUrl/posts", $params);
+        }
+
+        if ($response->successful()) {
+            return to_route('posts.index')->with(['messageTitle' => 'Created successfully.', 'messageBody' => 'Post has been create.']);
+        }
+
+        return back()->withInput()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to create post.']);
     }
 
     /**
@@ -118,12 +118,14 @@ class PostController extends Controller
     public function edit(string $id)
     {
         $responsePost = Http::withToken($this->bearerToken)->get("$this->baseUrl/posts/{$id}");
-        $responsePosts = Http::withToken($this->bearerToken)->get("$this->baseUrl/posts/getAll");
+        $responseCategories = Http::withToken($this->bearerToken)->get("$this->baseUrl/categories/getAll");
+        $responseTags = Http::withToken($this->bearerToken)->get("$this->baseUrl/tags/getAll");
 
         $post = $responsePost->json();
-        $posts = $responsePosts->json();
+        $categories = $responseCategories->json();
+        $tags = $responseTags->json();
 
-        return Inertia::render('Posts/Edit', compact('post', 'posts'));
+        return Inertia::render('Posts/Edit', compact('post', 'categories', 'tags'));
     }
 
     /**
@@ -131,56 +133,52 @@ class PostController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        try {
-            $image = $request->file('image');
+        $image = $request->file('image');
 
-            $rules = [
-                'title' => ['required', 'string', 'max:255'],
-                'body' => ['required', 'string', 'max:65535'],
-                'category' => ['required', 'integer', 'max:255'],
-                'subCategory' => ['required', 'integer', 'max:255'],
-                'tags' => ['nullable', 'array', 'max:255'],
-            ];
+        $rules = [
+            'title' => ['required', 'string', 'max:255'],
+            'body' => ['required', 'string', 'max:65535'],
+            'category' => ['required', 'integer', 'max:255'],
+            'subCategory' => ['required', 'integer', 'max:255'],
+            'tags' => ['nullable', 'array', 'max:255'],
+        ];
 
-            if ($image) {
-                $rules['image'] = ['nullable', 'file', 'mimes:jpg,png,jpeg,gif', 'max:10240'];
-            }
-
-            $request->validate($rules);
-
-            $tags = array_map('intval', (array) $request->input('tags'));
-
-            $params = [
-                'title' => $request->input('title'),
-                'body' => $request->input('body'),
-                'categoryId' => $request->input('category'),
-                'subCategoryId' => $request->input('subCategory'),
-                'tagsIds' => $tags,
-            ];
-
-            $isDummyImage = strpos($request['image'], 'https://dummyimage.com/') !== false;
-
-            $response = Http::withToken($this->bearerToken);
-
-            if ($request['image'] && !$isDummyImage) {
-                $imagePath = $image ? $image->getPathname() : $request['image'];
-                $imageName = $image ? $image->getClientOriginalName() : basename(parse_url($request['image'], PHP_URL_PATH));
-
-                $response = $response->withToken($this->bearerToken)->attach('image', file_get_contents($imagePath), $imageName)
-                    ->asMultipart()
-                    ->post("$this->baseUrl/posts/{$id}?_method=PATCH", $this->transformMultiFormData($params));
-            } else {
-                $response = $response->withToken($this->bearerToken)->patch("$this->baseUrl/posts/{$id}", $params);
-            }
-
-            if ($response->successful()) {
-                return to_route('posts.index')->with(['messageTitle' => 'Updated successfully.', 'messageBody' => 'Post has been updated.']);
-            }
-
-            return back()->withInput()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to update post.']);
-        } catch (\Exception $e) {
-            return back()->withInput()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to update post.']);
+        if ($image) {
+            $rules['image'] = ['nullable', 'file', 'mimes:jpg,png,jpeg,gif', 'max:10240'];
         }
+
+        $request->validate($rules);
+
+        $tags = array_map('intval', (array) $request->input('tags'));
+
+        $params = [
+            'title' => $request->input('title'),
+            'body' => $request->input('body'),
+            'categoryId' => $request->input('category'),
+            'subCategoryId' => $request->input('subCategory'),
+            'tagsIds' => $tags,
+        ];
+
+        $isDummyImage = strpos($request['image'], 'https://dummyimage.com/') !== false;
+
+        $response = Http::withToken($this->bearerToken);
+
+        if ($request['image'] && !$isDummyImage) {
+            $imagePath = $image ? $image->getPathname() : $request['image'];
+            $imageName = $image ? $image->getClientOriginalName() : basename(parse_url($request['image'], PHP_URL_PATH));
+
+            $response = $response->withToken($this->bearerToken)->attach('image', file_get_contents($imagePath), $imageName)
+                ->asMultipart()
+                ->post("$this->baseUrl/posts/{$id}?_method=PATCH", $this->transformMultiFormData($params));
+        } else {
+            $response = $response->withToken($this->bearerToken)->patch("$this->baseUrl/posts/{$id}", $params);
+        }
+
+        if ($response->successful()) {
+            return to_route('posts.index')->with(['messageTitle' => 'Updated successfully.', 'messageBody' => 'Post has been updated.']);
+        }
+
+        return back()->withInput()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to update post.']);
     }
 
     /**
@@ -188,17 +186,13 @@ class PostController extends Controller
      */
     public function destroy(string $id)
     {
-        try {
-            $response = Http::withToken($this->bearerToken)->delete("$this->baseUrl/posts/{$id}");
+        $response = Http::withToken($this->bearerToken)->delete("$this->baseUrl/posts/{$id}");
 
-            if ($response->successful()) {
-                return to_route('posts.index')->with(['messageTitle' => 'Deleted successfully.', 'messageBody' => 'Post has been deleted.']);
-            }
-
-            return back()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to delete post.']);
-        } catch (\Exception $e) {
-            return back()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to delete post.']);
+        if ($response->successful()) {
+            return to_route('posts.index')->with(['messageTitle' => 'Deleted successfully.', 'messageBody' => 'Post has been deleted.']);
         }
+
+        return back()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to delete post.']);
     }
 
     private function transformMultiFormData($data)

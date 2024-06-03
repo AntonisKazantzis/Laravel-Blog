@@ -3,17 +3,17 @@
 ## Overview
 Laravel Blog is a web application built with Vue.js, Filament, Livewire and PHP Laravel, providing a modern and responsive interface for exploring Posts data sourced from the [CactusApi](https://laraveltests.cactuscrm.gr/api). Key features include:
 
-- Blog Page.
-- CRUD Categories.
-- CRUD Posts.
-- Fully Responsive.
-- Modern design.
-- Theme Switcher.
-- Custom Error Page.
-- Notifications.
-- Admin Panel.
-- Pagination.
-- Charts.
+- Blog Page
+- CRUD Categories
+- CRUD Posts
+- Fully Responsive
+- Modern design
+- Theme Switcher
+- Custom Error Page
+- Notifications
+- Admin Panel
+- Pagination
+- Charts
 
 ## Installation
 Ensure you have [Git](https://git-scm.com/), [Composer](https://getcomposer.org/), and [Node.js](https://nodejs.org/) installed.
@@ -64,17 +64,18 @@ Ensure you have [Git](https://git-scm.com/), [Composer](https://getcomposer.org/
      - Password: password
 
 ## Dependencies
-- Laravel 10
-- Laravel Pint 1.16
-- Laravel Jetstream 4.3
-- Calebporzio Sushi 2.5
-- Flowframe Laravel-Trend *
-- Filament 3.2
-- Inertia.js 0.6.8
-- Inertia.js Vue3 1.0.0
-- Tabler Icons-Vue 3.5.0
-- Lodash 4.17.21
-- Md Editor 4.15.6
+- Laravel: 10
+- Laravel Pint: 1.16
+- Laravel Jetstream: 4.3
+- Calebporzio Sushi: 2.5
+- Flowframe Laravel-Trend: *
+- Filament: 3.2
+- Inertia.js: 0.6.8
+- Inertia.js Vue3: 1.0.0
+- Tabler Icons-Vue: 3.5.0
+- Lodash: 4.17.21
+- Md Editor: 4.15.6
+- Vueform Multiselect: 2.6.7
 
 ## Tags
 #VueJS #Laravel #Tailwind #Jetstream #FullStackDevelopment #CactusApi #InertiaJS #Filament #Livewire

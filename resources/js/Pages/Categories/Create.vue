@@ -29,9 +29,9 @@ const submit = () => {
             .body(page.props.flash.messageBody)
             .send(),
         onError: () => new FilamentNotification()
-            .title(page.props.errors.messageTitle)
+            .title(page.props.errors.messageTitle ?? "Error :/")
             .danger()
-            .body(page.props.errors.messageBody)
+            .body(page.props.errors.messageBody ?? "Validation error")
             .send(),
     });
 };

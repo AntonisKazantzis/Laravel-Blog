@@ -47,23 +47,19 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $request->validate([
-                'name' => ['required', 'string', 'max:255'],
-            ]);
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+        ]);
 
-            $response = Http::withToken($this->bearerToken)->post("$this->baseUrl/categories", [
-                'name' => $request->input('name'),
-            ]);
+        $response = Http::withToken($this->bearerToken)->post("$this->baseUrl/categories", [
+            'name' => $request->input('name'),
+        ]);
 
-            if ($response->successful()) {
-                return to_route('categories.index')->with(['messageTitle' => 'Created successfully.', 'messageBody' => 'Category has been created.']);
-            }
-
-            return back()->withInput()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to create category.']);
-        } catch (\Exception $e) {
-            return back()->withInput()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to create category.']);
+        if ($response->successful()) {
+            return to_route('categories.index')->with(['messageTitle' => 'Created successfully.', 'messageBody' => 'Category has been created.']);
         }
+
+        return back()->withInput()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to create category.']);
     }
 
     /**
@@ -83,23 +79,19 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        try {
-            $request->validate([
-                'name' => ['required', 'string', 'max:255'],
-            ]);
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+        ]);
 
-            $response = Http::withToken($this->bearerToken)->patch("$this->baseUrl/categories/{$id}", [
-                'name' => $request->input('name'),
-            ]);
+        $response = Http::withToken($this->bearerToken)->patch("$this->baseUrl/categories/{$id}", [
+            'name' => $request->input('name'),
+        ]);
 
-            if ($response->successful()) {
-                return to_route('categories.index')->with(['messageTitle' => 'Updated successfully.', 'messageBody' => 'Category has been updated.']);
-            }
-
-            return back()->withInput()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to update category.']);
-        } catch (\Exception $e) {
-            return back()->withInput()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to update category.']);
+        if ($response->successful()) {
+            return to_route('categories.index')->with(['messageTitle' => 'Updated successfully.', 'messageBody' => 'Category has been updated.']);
         }
+
+        return back()->withInput()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to update category.']);
     }
 
     /**
@@ -107,16 +99,12 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        try {
-            $response = Http::withToken($this->bearerToken)->delete("$this->baseUrl/categories/{$id}");
+        $response = Http::withToken($this->bearerToken)->delete("$this->baseUrl/categories/{$id}");
 
-            if ($response->successful()) {
-                return to_route('categories.index')->with(['messageTitle' => 'Deleted successfully.', 'messageBody' => 'Category has been deleted.']);
-            }
-
-            return back()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to delete category.']);
-        } catch (\Exception $e) {
-            return back()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to delete category.']);
+        if ($response->successful()) {
+            return to_route('categories.index')->with(['messageTitle' => 'Deleted successfully.', 'messageBody' => 'Category has been deleted.']);
         }
+
+        return back()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to delete category.']);
     }
 }

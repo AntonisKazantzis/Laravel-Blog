@@ -17,7 +17,8 @@ const page = usePage();
 
 const props = defineProps({
     post: Object,
-    posts: Object,
+    categories: Object,
+    tags: Object,
 });
 
 const imagePreview = ref(null);
@@ -57,37 +58,13 @@ const submit = () => {
                 .body(page.props.flash.messageBody)
                 .send();
         },
-        onError: () =>
-            new FilamentNotification()
-                .title(page.props.errors.messageTitle)
-                .danger()
-                .body(page.props.errors.messageBody)
-                .send(),
+        onError: () => new FilamentNotification()
+            .title(page.props.errors.messageTitle ?? "Error :/")
+            .danger()
+            .body(page.props.errors.messageBody ?? "Validation error")
+            .send(),
     });
 };
-
-const categoriesMap = ref({});
-const subCategoriesMap = ref({});
-const tagsMap = ref({});
-
-props.posts.forEach(post => {
-    if (post.category && !categoriesMap.value[post.category.id]) {
-        categoriesMap.value[post.category.id] = post.category.name;
-        subCategoriesMap.value[post.category.id] = {};
-    }
-    if (post.subCategory) {
-        if (!subCategoriesMap.value[post.category.id][post.subCategory.id]) {
-            subCategoriesMap.value[post.category.id][post.subCategory.id] = post.subCategory.name;
-        }
-    }
-    if (post.tags) {
-        post.tags.forEach(tag => {
-            if (!tagsMap.value[tag.id]) {
-                tagsMap.value[tag.id] = tag.name;
-            }
-        });
-    }
-});
 
 const deleteImage = () => {
     imagePreview.value = null;
@@ -119,18 +96,20 @@ const clearImageFileInput = () => {
     }
 };
 
-const categories = computed(() => {
-    return Object.entries(categoriesMap.value).map(([id, name]) => ({ value: id, label: name }));
-});
+const categories = computed(() =>
+    props.categories.map(category => ({ value: category.id, label: category.name }))
+);
 
 const subCategories = computed(() => {
-    if (!form.category) return [];
-    return Object.entries(subCategoriesMap.value[form.category] || {}).map(([id, name]) => ({ value: id, label: name }));
+    const selectedCategory = props.categories.find(category => category.id === form.category);
+    return selectedCategory ?
+        selectedCategory.subCategories.map(subCategory => ({ value: subCategory.id, label: subCategory.name }))
+        : [];
 });
 
-const tags = computed(() => {
-    return Object.entries(tagsMap.value).map(([id, name]) => ({ value: id, label: name }));
-});
+const tags = computed(() =>
+    props.tags.map(tag => ({ value: tag.id, label: tag.name }))
+);
 
 watch(() => form.category, () => {
     form.subCategory = null;
@@ -177,7 +156,7 @@ watch(() => form.category, () => {
                         Select A New Image
                     </SecondaryButton>
 
-                    <SecondaryButton v-if="imagePreview"
+                    <SecondaryButton v-if="imagePreview || form.image"
                         class="mt-2 w-48 max-w-[182px] max-h-[182px] items-center justify-center" type="button"
                         @click.prevent="deleteImage">
                         Remove Image
@@ -199,7 +178,8 @@ watch(() => form.category, () => {
                     <div class="mb-4">
                         <InputLabel for="body" value="Body" />
 
-                        <MdEditor v-model="form.body" language="en-US" />
+                        <MdEditor v-model="form.body" language="en-US"
+                            class="border-black shadow-sm dark:border-black rounded-md focus:ring-indigo-500 dark:focus:ring-indigo-500 hover:dark:border-indigo-500 hover:border-indigo-500" />
 
                         <InputError :message="form.errors.body" class="mt-2" />
                     </div>
@@ -212,7 +192,7 @@ watch(() => form.category, () => {
                         <Multiselect required mode="single" :hide-selected="false"
                             noOptionsText="No available categories" placeholder="Select Category"
                             v-model="form.category" :options="categories"
-                            class="mt-4 sm:mt-0 border text-black capitalize border-white dark:border-black hover:dark:border-indigo-500 hover:border-indigo-500 rounded-md w-full md:w-64 lg:w-64 xl:w-64 2xl:w-64 sm:w-64 h-12 focus:outline-none focus:border-indigo-500" />
+                            class="mt-4 sm:mt-0 border text-black capitalize border-black dark:border-black hover:dark:border-indigo-500 hover:border-indigo-500 rounded-md w-full md:w-64 lg:w-64 xl:w-64 2xl:w-64 sm:w-64 h-12 focus:outline-none focus:border-indigo-500" />
 
                         <InputError :message="form.errors.category" class="mt-2" />
                     </div>
@@ -223,7 +203,7 @@ watch(() => form.category, () => {
                         <Multiselect required mode="single" :hide-selected="false"
                             noOptionsText="Select a category first" placeholder="Select Sub Category"
                             v-model="form.subCategory" :options="subCategories"
-                            class="mt-4 sm:mt-0 border text-black capitalize border-white dark:border-black hover:dark:border-indigo-500 hover:border-indigo-500 rounded-md w-full md:w-64 lg:w-64 xl:w-64 2xl:w-64 sm:w-64 h-12 focus:outline-none focus:border-indigo-500" />
+                            class="mt-4 sm:mt-0 border text-black capitalize border-black dark:border-black hover:dark:border-indigo-500 hover:border-indigo-500 rounded-md w-full md:w-64 lg:w-64 xl:w-64 2xl:w-64 sm:w-64 h-12 focus:outline-none focus:border-indigo-500" />
 
                         <InputError :message="form.errors.subCategory" class="mt-2" />
                     </div>
@@ -234,7 +214,7 @@ watch(() => form.category, () => {
                         <Multiselect mode="multiple" :close-on-select="false" :hide-selected="false"
                             noOptionsText="No available tags" placeholder="Select Tags" v-model="tagsInput"
                             :options="tags"
-                            class="mt-4 sm:mt-0 border text-black capitalize border-white dark:border-black hover:dark:border-indigo-500 hover:border-indigo-500 rounded-md w-full md:w-64 lg:w-64 xl:w-64 2xl:w-64 sm:w-64 h-12 focus:outline-none focus:border-indigo-500" />
+                            class="mt-4 sm:mt-0 border text-black capitalize border-black dark:border-black hover:dark:border-indigo-500 hover:border-indigo-500 rounded-md w-full md:w-64 lg:w-64 xl:w-64 2xl:w-64 sm:w-64 h-12 focus:outline-none focus:border-indigo-500" />
 
                         <InputError :message="form.errors.tags" class="mt-2" />
                     </div>
