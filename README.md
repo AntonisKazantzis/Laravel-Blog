@@ -12,6 +12,7 @@ Laravel Blog is a web application built with Vue.js, Filament, Livewire and PHP 
 - Custom Error Page.
 - Notifications.
 - Admin Panel.
+- Pagination.
 - Charts.
 
 ## Installation
@@ -37,6 +38,11 @@ Ensure you have [Git](https://git-scm.com/), [Composer](https://getcomposer.org/
 4. **Migrate database and seed initial data:**
    ```bash
    php artisan migrate:fresh --seed
+   ```
+
+5. **Link storage for accessing sales data:**
+   ```bash
+   php artisan storage:link
    ```
 
 5. **Compile assets and start server:**
