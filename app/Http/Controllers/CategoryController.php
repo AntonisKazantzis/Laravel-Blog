@@ -15,7 +15,7 @@ class CategoryController extends Controller
     public function __construct()
     {
         $this->bearerToken = env('API_BEARER_TOKEN');
-        $this->baseUrl = 'https://laraveltests.cactuscrm.gr/api/categories';
+        $this->baseUrl = 'https://laraveltests.cactuscrm.gr/api';
     }
 
     /**
@@ -23,7 +23,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $response = Http::withToken($this->bearerToken)->get($this->baseUrl.'/getAll');
+        $response = Http::withToken($this->bearerToken)->get("$this->baseUrl/categories/getAll");
 
         $categories = $response->json();
 
@@ -35,7 +35,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $response = Http::withToken($this->bearerToken)->get($this->baseUrl.'/getAll');
+        $response = Http::withToken($this->bearerToken)->get("$this->baseUrl/categories/getAll");
 
         $categories = $response->json();
 
@@ -52,7 +52,7 @@ class CategoryController extends Controller
                 'name' => ['required', 'string', 'max:255'],
             ]);
 
-            $response = Http::withToken($this->bearerToken)->post($this->baseUrl, [
+            $response = Http::withToken($this->bearerToken)->post("$this->baseUrl/categories", [
                 'name' => $request->input('name'),
             ]);
 
@@ -62,7 +62,6 @@ class CategoryController extends Controller
 
             return back()->withInput()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to create category.']);
         } catch (\Exception $e) {
-
             return back()->withInput()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to create category.']);
         }
     }
@@ -89,7 +88,7 @@ class CategoryController extends Controller
                 'name' => ['required', 'string', 'max:255'],
             ]);
 
-            $response = Http::withToken($this->bearerToken)->patch("$this->baseUrl/{$id}", [
+            $response = Http::withToken($this->bearerToken)->patch("$this->baseUrl/categories/{$id}", [
                 'name' => $request->input('name'),
             ]);
 
@@ -99,7 +98,6 @@ class CategoryController extends Controller
 
             return back()->withInput()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to update category.']);
         } catch (\Exception $e) {
-
             return back()->withInput()->withErrors(['messageTitle' => 'Error :/', 'messageBody' => 'Failed to update category.']);
         }
     }
@@ -110,7 +108,7 @@ class CategoryController extends Controller
     public function destroy(string $id)
     {
         try {
-            $response = Http::withToken($this->bearerToken)->delete("$this->baseUrl/{$id}");
+            $response = Http::withToken($this->bearerToken)->delete("$this->baseUrl/categories/{$id}");
 
             if ($response->successful()) {
                 return to_route('categories.index')->with(['messageTitle' => 'Deleted successfully.', 'messageBody' => 'Category has been deleted.']);
