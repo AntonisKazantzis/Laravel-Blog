@@ -4,7 +4,7 @@ import AppLayout from "@/Layouts/AppLayout.vue";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
-import { IconDots } from "@tabler/icons-vue";
+import { IconDots, IconCategory } from "@tabler/icons-vue";
 
 const page = usePage()
 
@@ -28,10 +28,6 @@ const destroy = (categoryId) => {
             .send(),
     });
 };
-
-const edit = (categoryId) => {
-    router.get(route("categories.edit", { category: categoryId }));
-};
 </script>
 
 <template>
@@ -52,48 +48,61 @@ const edit = (categoryId) => {
                 </div>
             </template>
 
-            <div v-if="categories && categories.length > 0" class="pt-16 pb-8 border-t sm:block">
-                <div class="flex flex-wrap justify-center">
-                    <div v-for="category in categories" :key="category.id"
-                        class="shadow-xl border-2 m-4 rounded flex flex-col md:w-[330px] md:h-[110px] transition-transform transform hover:scale-105">
+            <div v-if="categories" class="pt-16 pb-8 border-t sm:block">
+                <div v-for="category in categories" :key="category.id"
+                    class="shadow-xl border-2 m-auto rounded flex flex-col md:flex-row w-full max-w-md md:max-w-1xl mb-8 transition-transform transform hover:scale-105">
 
-                        <div class="flex p-8">
-                            <div class="bg-[#343541] dark:bg-white w-full">
-                                <div class="flex justify-between items-center">
-                                    <div class="text-xl font-semibold text-white dark:text-black">
-                                        {{ category.name }}
-                                    </div>
-
-                                    <div class="relative rounded-full hover:bg-indigo-500 focus:bg-indigo-900">
-                                        <Dropdown align="right" width="48">
-                                            <template #trigger>
-                                                <button
-                                                    class="flex text-sm rounded-full dark:text-black text-white focus:outline-none transition">
-                                                    <IconDots :size="40" />
-                                                </button>
-                                            </template>
-
-                                            <template #content>
-                                                <div class="block px-4 py-2 text-xs text-zinc-500 dark:text-zinc-500">
-                                                    Manage Category
-                                                </div>
-
-                                                <DropdownLink
-                                                    :href="route('categories.edit', { category: category.id })">
-                                                    Edit
-                                                </DropdownLink>
-
-                                                <div class="border-t border-white dark:border-gray-900" />
-
-                                                <form @submit.prevent="destroy(category.id)">
-                                                    <DropdownLink as="button">
-                                                        Delete
-                                                    </DropdownLink>
-                                                </form>
-                                            </template>
-                                        </Dropdown>
-                                    </div>
+                    <div class="flex-1 p-4 md:p-12 overflow-hidden">
+                        <div class="bg-[#343541] dark:bg-white">
+                            <div class="px-4 md:px-6 space-y-12">
+                                <div class="text-xl font-semibold text-white dark:text-black">
+                                    {{ category.name }}
                                 </div>
+
+                                <div v-if="category.subCategories && category.subCategories.length > 0">
+                                    <span class="items-center text-sm font-semibold text-white dark:text-black">
+                                        <IconCategory class="inline-block mr-1" :size="18" />
+                                        <template v-for="subCategory in category.subCategories" :key="subCategory.id">
+                                            <div
+                                                class="inline-block mb-2 bg-zinc-300 text-black dark:text-black rounded-full px-2 py-1 mr-1">
+                                                {{ subCategory.name }}
+                                            </div>
+                                        </template>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex relative">
+                        <div class="fixed top-2 right-2 flex rounded-full hover:bg-indigo-500 focus:bg-indigo-900">
+                            <div class="relative flex items-center">
+                                <Dropdown align="right" width="48">
+                                    <template #trigger>
+                                        <button
+                                            class="flex text-sm rounded-full dark:text-black text-white focus:outline-none transition">
+                                            <IconDots :size="40" />
+                                        </button>
+                                    </template>
+
+                                    <template #content>
+                                        <div class="block px-4 py-2 text-xs text-zinc-500 dark:text-zinc-500">
+                                            Manage Category
+                                        </div>
+
+                                        <DropdownLink :href="route('categories.edit', { category: category.id })">
+                                            Edit
+                                        </DropdownLink>
+
+                                        <div class="border-t border-white dark:border-gray-900" />
+
+                                        <form @submit.prevent="destroy(category.id)">
+                                            <DropdownLink as="button">
+                                                Delete
+                                            </DropdownLink>
+                                        </form>
+                                    </template>
+                                </Dropdown>
                             </div>
                         </div>
                     </div>
@@ -125,18 +134,27 @@ const edit = (categoryId) => {
                 </div>
             </template>
 
-            <div v-if="categories && categories.length > 0" class="pt-16 pb-8 border-t sm:block">
-                <div class="flex flex-wrap justify-center">
-                    <div v-for="category in categories" :key="category.id"
-                        class="shadow-xl border-2 m-4 rounded flex flex-col md:w-[330px] md:h-[110px] mb-8 transition-transform transform hover:scale-105">
+            <div v-if="categories" class="pt-16 pb-8 border-t sm:block">
+                <div v-for="category in categories" :key="category.id"
+                    class="shadow-xl border-2 m-auto rounded flex flex-col md:flex-row w-full max-w-md md:max-w-xl mb-8 transition-transform transform hover:scale-105">
 
-                        <div class="flex p-8">
-                            <div class="bg-[#343541] dark:bg-white w-full text-center">
-                                <div class="px-6">
-                                    <div
-                                        class="flex justify-center items-center pr-3 text-xl font-semibold text-white dark:text-black pb-10">
-                                        {{ category.name }}
-                                    </div>
+                    <div class="flex p-4 md:p-12 overflow-hidden">
+                        <div class="bg-[#343541] dark:bg-white">
+                            <div class="px-4 md:px-6 space-y-12">
+                                <div class="text-xl font-semibold text-white dark:text-black">
+                                    {{ category.name }}
+                                </div>
+
+                                <div v-if="category.subCategories && category.subCategories.length > 0">
+                                    <span class="items-center text-sm font-semibold text-white dark:text-black">
+                                        <IconCategory class="inline-block mr-1" :size="18" />
+                                        <template v-for="subCategory in category.subCategories" :key="subCategory.id">
+                                            <div
+                                                class="inline-block mb-2 bg-zinc-300 text-black dark:text-black rounded-full px-2 py-1 mr-1">
+                                                {{ subCategory.name }}
+                                            </div>
+                                        </template>
+                                    </span>
                                 </div>
                             </div>
                         </div>
