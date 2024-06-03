@@ -21,6 +21,7 @@
     },
     "dependencies": {
         "@tabler/icons-vue": "^3.5.0",
+        "@vueform/multiselect": "^2.6.7",
         "lodash": "^4.17.21",
         "md-editor-v3": "^4.15.6"
     }
