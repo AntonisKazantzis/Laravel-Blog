@@ -20,6 +20,9 @@ const props = defineProps({
     posts: Object,
 });
 
+const imagePreview = ref(null);
+const imageInput = ref(null);
+
 const form = useForm({
     _method: "PATCH",
     title: props.post.title,
@@ -30,34 +33,8 @@ const form = useForm({
     tags: props.post.tags,
 });
 
-const imagePreview = ref(null);
-const imageInput = ref(null);
-
 const tagIds = form.tags.map(tag => tag.id);
 const tagsInput = ref(tagIds);
-
-const categoriesMap = ref({});
-const subCategoriesMap = ref({});
-const tagsMap = ref({});
-
-props.posts.forEach(post => {
-    if (post.category && !categoriesMap.value[post.category.id]) {
-        categoriesMap.value[post.category.id] = post.category.name;
-        subCategoriesMap.value[post.category.id] = {};
-    }
-    if (post.subCategory) {
-        if (!subCategoriesMap.value[post.category.id][post.subCategory.id]) {
-            subCategoriesMap.value[post.category.id][post.subCategory.id] = post.subCategory.name;
-        }
-    }
-    if (post.tags) {
-        post.tags.forEach(tag => {
-            if (!tagsMap.value[tag.id]) {
-                tagsMap.value[tag.id] = tag.name;
-            }
-        });
-    }
-});
 
 const submit = () => {
     if (tagsInput.value) {
@@ -88,6 +65,29 @@ const submit = () => {
                 .send(),
     });
 };
+
+const categoriesMap = ref({});
+const subCategoriesMap = ref({});
+const tagsMap = ref({});
+
+props.posts.forEach(post => {
+    if (post.category && !categoriesMap.value[post.category.id]) {
+        categoriesMap.value[post.category.id] = post.category.name;
+        subCategoriesMap.value[post.category.id] = {};
+    }
+    if (post.subCategory) {
+        if (!subCategoriesMap.value[post.category.id][post.subCategory.id]) {
+            subCategoriesMap.value[post.category.id][post.subCategory.id] = post.subCategory.name;
+        }
+    }
+    if (post.tags) {
+        post.tags.forEach(tag => {
+            if (!tagsMap.value[tag.id]) {
+                tagsMap.value[tag.id] = tag.name;
+            }
+        });
+    }
+});
 
 const deleteImage = () => {
     imagePreview.value = null;
@@ -205,32 +205,35 @@ watch(() => form.category, () => {
                     </div>
                 </div>
 
-                <div class="flex gap-4 col-span-6">
-                    <div class="w-1/2">
+                <div class="flex lg:flex-row flex-col gap-4 lg:space-y-0 space-y-4 col-span-6">
+                    <div class="lg:w-1/2 w-full">
                         <InputLabel for="category" value="Category" />
 
-                        <Multiselect required mode="single" :hide-selected="false" no-options-text="No categories"
-                            placeholder="Select Category" v-model="form.category" :options="categories"
+                        <Multiselect required mode="single" :hide-selected="false"
+                            noOptionsText="No available categories" placeholder="Select Category"
+                            v-model="form.category" :options="categories"
                             class="mt-4 sm:mt-0 border text-black capitalize border-white dark:border-black hover:dark:border-indigo-500 hover:border-indigo-500 rounded-md w-full md:w-64 lg:w-64 xl:w-64 2xl:w-64 sm:w-64 h-12 focus:outline-none focus:border-indigo-500" />
 
                         <InputError :message="form.errors.category" class="mt-2" />
                     </div>
 
-                    <div class="w-1/2">
+                    <div class="lg:w-1/2 w-full">
                         <InputLabel for="subCategory" value="Sub Category" />
 
-                        <Multiselect required mode="single" :hide-selected="false" no-options-text="No sub categories"
-                            placeholder="Select Sub Category" v-model="form.subCategory" :options="subCategories"
+                        <Multiselect required mode="single" :hide-selected="false"
+                            noOptionsText="Select a category first" placeholder="Select Sub Category"
+                            v-model="form.subCategory" :options="subCategories"
                             class="mt-4 sm:mt-0 border text-black capitalize border-white dark:border-black hover:dark:border-indigo-500 hover:border-indigo-500 rounded-md w-full md:w-64 lg:w-64 xl:w-64 2xl:w-64 sm:w-64 h-12 focus:outline-none focus:border-indigo-500" />
 
                         <InputError :message="form.errors.subCategory" class="mt-2" />
                     </div>
 
-                    <div class="w-1/2">
+                    <div class="lg:w-1/2 w-full">
                         <InputLabel for="tags" value="Tags" />
 
                         <Multiselect mode="multiple" :close-on-select="false" :hide-selected="false"
-                            no-options-text="No tags" placeholder="Select Tags" v-model="tagsInput" :options="tags"
+                            noOptionsText="No available tags" placeholder="Select Tags" v-model="tagsInput"
+                            :options="tags"
                             class="mt-4 sm:mt-0 border text-black capitalize border-white dark:border-black hover:dark:border-indigo-500 hover:border-indigo-500 rounded-md w-full md:w-64 lg:w-64 xl:w-64 2xl:w-64 sm:w-64 h-12 focus:outline-none focus:border-indigo-500" />
 
                         <InputError :message="form.errors.tags" class="mt-2" />
